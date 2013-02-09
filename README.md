@@ -33,22 +33,6 @@ ToDo
 
 
 Notes
-If your config.php file does not get created, write this as config.php in the root of newzdash and change its values
-	
-    <?php
-    define('NEWZNAB_URL','http://www.hereisyourdeliveryoffail.co.uk');
-    define('NEWZNAB_HOME','/var/www/newznab');
-    define('SHOW_MOVIES','checked');
-    define('SHOW_TV','checked');
-    define('SHOW_MUSIC','');
-    define('SHOW_GAMES','');
-    define('SHOW_PC','checked');
-    define('SHOW_OTHER','checked');
-    define('SHOW_XXX','checked');
-    define('SHOW_PROCESSING','checked');
-    define('SHOW_RPC','checked');
-    define('SHOW_RPG','checked');
-    define('JSUPDATE_DELAY', '2000');
-    include(NEWZNAB_HOME.'/www/config.php');
-    ?>
-	
+If your config.php file does not get created, write this as config.php in the root of newzdash and change its values to whatever your system needs.
+http://onion.vps-solutions.co.uk/newzdash_configphp.txt
+
