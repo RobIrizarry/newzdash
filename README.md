@@ -18,6 +18,7 @@ Installation Instructions
 - also ensure that the php5-xcache module is installed.
 - clone the git repository to /var/www/newzdash
 - Configure apache or nginx to server newzdash at port of your choosing (I prefer 8080, or create a subdomain for it)
+- Create vhosts file for apache2 (do the same thing for whatever nginx uses, :P)
 - Access NewzDash via your browser at http://hostname:port (or http://subdomain.hostname.com)
 - The first time you bring up NewzDash, it will redirect you to the configuration page.
 - You need to specify the directy where NewzNab is installed so that NewzDash can find the NewzNab config.php file
