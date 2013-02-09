@@ -92,7 +92,7 @@
 	    $newconfig .= "define('SHOW_RPG','');\n";
 	}	
 
-        
+        $newconfig .= "define('JSUPDATE_DELAY','2000');";
         $newconfig .= "include(NEWZNAB_HOME.'/www/config.php');\n";
         
         $newconfig .= "?>\n";
