@@ -1,67 +1,67 @@
 
 <?php
-
 include('config.php');
 
-
-if (!file_exists(NEWZNAB_HOME."/www/config.php"))
+if (!file_exists("config.php"))
 {
 	# send the browser to the configuration page, something is wrong!
-	header("Location: configure.php");
+	header("Location: /install");
+}
+
+$page = "dashboard";
+$pageScripts = false;
+
+if ( isset($_GET['p']) )
+{
+	$page = $_GET['p'];
+
+	if ( (strpos( $page, "." ) > 0) || (strpos( $page, "\\" ) > 0) || (strpos( $page, "/" ) > 0) ) {
+		echo ( "
+		<div>
+			<ul class=\"breadcrumb\">
+				Error:<br />
+				Illegal characters found in page URL!
+			</ul>
+		</div>" );
+		$page = "";
+		die();
+	}else{
+		if ( !file_exists("./pages/" . $page . ".php") )
+		{
+			echo ( "
+			<div>
+				<ul class=\"breadcrumb\">
+					Error:<br />
+					Unable to find the page " . $page . "
+				</ul>
+			</div>" );
+			$page = "";
+			die();
+		}
+		
+		if ( file_exists("./pages/" . $page . "_script.php") )
+		{
+			$pageScripts = true;
+		}
+	}
+}else{
+	$page = "dashboard";
 }
 
 require_once("lib/dashdata.php");
-
 $dashdata = new DashData;
 
 ?>
 
 <html lang="en">
 
-<?php include 'includes/header.php'; ?>
-<script>
-	function updateReleaseCount() {
-		$("#releaseCount").load("api.php?mode=releases");
+<?php
+	if ( $pageScripts ) {
+		include ( WWW_DIR . "/pages/" . $page . "_script.php" );
 	}
-	
-	function updateLastGroupUpdate() {
-		$("#lastgroupupdate").load("api.php?mode=lastgroupupdate");
-	}
-	
-	function updateActiveGroups() {
-		$("#activegroups").load("api.php?mode=activegroups");
-	}
-	
-	function updatePendingProcessing() {
-		$("#pendingprocessing").load("api.php?mode=pendingprocessing");
-	}
-	
-	function updateLastBinaryAdded() {
-		$("#lastbinaryadded").load("api.php?mode=lastbinaryadded");
-	}
-	
-	function updateLastReleaseCreated() {
-		$("#lastreleasecreated").load("api.php?mode=lastreleasecreated");
-	}
-	
-	function updatePartsTableStats() {
-		$("#partstablestats").load("api.php?mode=partstablestats");
-	}
-	
-	function updateAll() {
-		updateReleaseCount();
-		updateLastGroupUpdate();
-		updateActiveGroups();
-		updatePendingProcessing();
-		updateLastBinaryAdded();
-		updateLastReleaseCreated();
-		updatePartsTableStats();
-	}
-	
-	$(function () {
-		setInterval ( updateAll, <?php echo ( JSUPDATE_DELAY ); ?> );
-	});
-</script>
+	include 'includes/header.php';
+?>
+
 <body>
 <?php include 'includes/topbar.php'; ?>
 
@@ -80,36 +80,6 @@ $dashdata = new DashData;
 				<!-- content starts -->
 					
 				<?php
-					if ( isset($_GET['p']) )
-					{
-						$page = $_GET['p'];
-					
-						if ( (strpos( $page, "." ) > 0) || (strpos( $page, "\\" ) > 0) || (strpos( $page, "/" ) > 0) ) {
-							echo ( "
-							<div>
-								<ul class=\"breadcrumb\">
-									Error:<br />
-									Illegal characters found in page URL!
-								</ul>
-							</div>" );
-							$page = "";
-						}else{
-							if ( !file_exists("./pages/" . $page . ".php") )
-							{
-								echo ( "
-								<div>
-									<ul class=\"breadcrumb\">
-										Error:<br />
-										Unable to find the page " . $page . "
-									</ul>
-								</div>" );
-								$page = "";
-							}
-						}
-					}else{
-						$page = "dashboard";
-					}
-					
 					if ( $page != "" )
 					{
 						include ( "./pages/" . $page . ".php");

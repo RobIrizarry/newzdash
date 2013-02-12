@@ -1,16 +1,14 @@
 <?php
 
-require_once(WWW_DIR."/lib/releases.php");
-require_once(WWW_DIR."/lib/groups.php");
-require_once(WWW_DIR."/lib/framework/db.php");
-require_once(WWW_DIR."/lib/category.php");
-require_once(WWW_DIR."/lib/site.php");
+require_once(WWW_DIR."/lib/nn/releases.php");
+require_once(WWW_DIR."/lib/nn/groups.php");
+//require_once(WWW_DIR."/lib/framework/db.php");
+require_once(WWW_DIR."/lib/nn/category.php");
+//require_once(WWW_DIR."/lib/site.php");
 
 
 class RecentReleases
-{
-
-	
+{	
         public function buildRecentTable($newznab_cat, $category)
         {
 		printf ('<div class="row-fluid">

@@ -1,13 +1,8 @@
-
-			
-
-			
-
 	<!-- breadcrumbs end -->
 	<div class="breadcrumb">
 		<h2>NewzDash Main Monitor</h2><hr style="color:#000000; background-color:#000000; height:3px;"><br />
-		Welcome to NewzDash - Modified by <a target="_blank" href="https://github.com/AlienXAXS">AlienX</a><br />
-		Most notification panes are updated automatically every <?php echo ( JSUPDATE_DELAY/1000 . " seconds."); ?>
+		Most notification panes are updated automatically every <?php echo ( JSUPDATE_DELAY/1000 . " seconds."); ?><br /><br />
+		<strong>This is Alpha Software, while it does not write to your database, it does read from it - use at your own risk!</strong>
 	</div>
 	
 	<!-- Count Dashboard summaries start -->

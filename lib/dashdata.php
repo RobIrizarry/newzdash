@@ -1,26 +1,15 @@
 <?php
 
-if (file_exists('config.php'))
-{
-    require_once(WWW_DIR."/lib/releases.php");
-    require_once(WWW_DIR."/lib/groups.php");
-    require_once(WWW_DIR."/lib/framework/db.php");
-    require_once(WWW_DIR."/lib/category.php");
-    require_once(WWW_DIR."/lib/site.php");
-}
-
-error_reporting ( E_ALL );
-
-
+if (!class_exists ( "DB" ))
+	require_once ( WWW_DIR . "/lib/sql/db.php" );
 
 class DashData
 {
-
 	public function time_elapsed($secs)
 	{
 	    if ($secs==0)
 	    {
-		return "now";
+			return "now";
 	    }
 	    
 	    $bit = array(
@@ -114,15 +103,15 @@ class DashData
 	
 	public function getPartsTableSize($apiRun=false)
 	{
-		$sql = "SELECT table_rows as cnt FROM information_schema.TABLES where table_name = 'parts';";
+		$sql = "SELECT table_rows as cnt FROM information_schema.TABLES where table_name = 'parts' AND table_schema='" . DB_NAME . "';";
 		$db = new DB;
 		$data = $db->queryOneRow($sql);
-		return $data['cnt'];
+		return number_format($data['cnt']);
 	}
 	
 	public function getPartsTableDBSize($apiRun=false)
 	{
-		$sql = "SELECT concat(round((data_length+index_length)/(1024*1024*1024),2),'GB') AS cnt FROM information_schema.tables where table_name = 'parts';";
+		$sql = "SELECT concat(round((data_length+index_length)/(1024*1024*1024),2),'GB') AS cnt FROM information_schema.tables where table_name = 'parts' AND table_schema='" . DB_NAME . "';";
 		$db = new DB;
 		$data = $db->queryOneRow($sql);
 		return $data['cnt'];
@@ -205,13 +194,13 @@ class DashData
 	    # and a slight delay in knowing a new release is available is not that bad
 	    if (xcache_isset("newznabrss"))
 	    {
-		$xml_source = xcache_get("newznabrss");
+			$xml_source = xcache_get("newznabrss");
 	    }
 	    else
 	    {
-		$xml_source = file_get_contents('http://newznab.com/plussvnrss.xml');
-		# store it for 15 minutes
-		xcache_set("newznabrss", $xml_source, 60*15);
+			$xml_source = file_get_contents('http://newznab.com/plussvnrss.xml');
+			# store it for 15 minutes
+			xcache_set("newznabrss", $xml_source, 60*15);
 	    }
 	    
 	    $x = simplexml_load_string($xml_source);
@@ -270,37 +259,23 @@ class DashData
 	    }
 	}
 	
-
         /**
          * count of releases
          */
         public function getReleaseCount($retOnlyValue=false)
         {
-            $r=new Releases;
-            $total_releases = $r->getCount();
-			if ( $retOnlyValue ) {
-				return $total_releases;
-			}else{
-				printf('<span class="icon32 icon-blue icon-star-on"></span>
-				<div>Total Releases</div>
-				<div>%s</div>', $total_releases);  
-			}
-	      
+            $sql = "SELECT table_rows as cnt FROM information_schema.TABLES where table_name = 'releases' AND table_schema='" . DB_NAME . "';";
+			$db = new DB;
+			$data = $db->queryOneRow($sql);
+			return number_format($data['cnt']); 
         }
         
         public function getActiveGroupCount($apiRun=false)
         {
-            $g = new Groups;
-            $active_groups = $g->getCount("", true);
- 			
-			if ( $apiRun )
-			{
-				return $active_groups;
-			}else{
-				printf('<span class="icon32 icon-blue icon-comment"></span>
-				<div>Active Groups</div>
-				<div>%s</div>', $active_groups);
-			}
+            $sql = "SELECT count(active) as cnt from `groups` WHERE active=1;";
+			$db = new DB;
+			$data = $db->queryOneRow($sql);
+			return number_format($data['cnt']);
         }
         
         public function getPendingProcessingCount($apiRun=false)
@@ -325,7 +300,7 @@ class DashData
 			$total = $data[0]['ToDo'];
 
 			if ( $apiRun ) {
-				return $total;
+				return number_format($total);
 			}else{
 				printf('<span class="icon32 icon-blue icon-star-off"></span>
 				<div>Pending Processing</div>
