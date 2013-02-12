@@ -14,7 +14,7 @@ Installation Instructions
 - ensure that the php5-svn module is installed, on ubuntu/debian you can install with 'sudo apt-get install php5-svn'. NewzDash will
   function without this but you will not see version information.
 - ensure the php5-xcache module is installed.
-- clone the git repository: 'git clone git@github.com:tssgery/newzdash.git /var/www/newzdash'.
+- clone the git repository: 'git clone https://github.com/AlienXAXS/newzdash.git /var/www/newzdash'.
 - Configure your web server to either: Run NewzDash on a subdomain (ref #1), or run NewzDash in a sub folder (ref #2).
 - Access NewzDash via your browser and start the install process.
 
