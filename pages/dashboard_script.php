@@ -1,3 +1,4 @@
+<script src="http://code.jquery.com/jquery-latest.js"></script>
 <script>
 	function updateReleaseCount() {
 		$("#releaseCount").load("api.php?mode=releases");

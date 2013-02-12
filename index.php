@@ -26,7 +26,7 @@ if ( isset($_GET['p']) )
 		$page = "";
 		die();
 	}else{
-		if ( !file_exists("./pages/" . $page . ".php") )
+		if ( !file_exists(WWW_DIR . "/pages/" . $page . ".php") )
 		{
 			echo ( "
 			<div>
@@ -39,13 +39,14 @@ if ( isset($_GET['p']) )
 			die();
 		}
 		
-		if ( file_exists("./pages/" . $page . "_script.php") )
-		{
-			$pageScripts = true;
-		}
 	}
 }else{
 	$page = "dashboard";
+}
+
+if ( file_exists(WWW_DIR . "/pages/" . $page . "_script.php") )
+{
+	$pageScripts = true;
 }
 
 require_once("lib/dashdata.php");
@@ -54,14 +55,14 @@ $dashdata = new DashData;
 ?>
 
 <html lang="en">
-
+<head>
 <?php
 	if ( $pageScripts ) {
 		include ( WWW_DIR . "/pages/" . $page . "_script.php" );
 	}
 	include 'includes/header.php';
 ?>
-
+</head>
 <body>
 <?php include 'includes/topbar.php'; ?>
 

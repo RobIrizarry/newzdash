@@ -13,11 +13,9 @@ Installation Instructions
 
 - ensure that the php5-svn module is installed, on ubuntu/debian you can install with 'sudo apt-get install php5-svn'. NewzDash will
   function without this but you will not see version information.
-- clone the git repository: 'git clone git@github.com:tssgery/newzdash.git'
-- Configure apache or nginx to server newzdash at port of your choosing (I prefer 8080)
-- Access NewzDash via your browser at http://hostname:port
-- The first time you bring up NewzDash, it will redirect you to the configuration page.
--- You need to specify the directy where NewzNab is installed so that NewzDash can find the NewzNab config.php file
+- clone the git repository: 'git clone git@github.com:tssgery/newzdash.git /var/www/newzdash'
+- Configure your web server to either: Run NewzDash on a subdomain (ref #1), or run NewzDash in a sub folder (ref #2)
+- Access NewzDash via your browser and start the install process
 
 
 ToDo
@@ -25,11 +23,15 @@ ToDo
 - Add system information (such as memory and cpu consumption, and disk space)
 - Enable newzdash version checking and automatic updates
 
-Screens
+Ref #1
+Create a new vhost file, for apache thats:
+/etc/apache2/sites-enabled
 
-[ScreenShot](https://raw.github.com/tssgery/newzdash/master/screens/unnamed-dash.jpg)
+Ref #2
+If you are wanting to put newzdash in a sub directory of newznab, you will have to modify the .htaccess file of Newznab.
 
-[ScreenShot](https://raw.github.com/tssgery/newzdash/master/screens/unnamed-recent.jpg)
+Find:
+RewriteRule ^(admin|install).*$ - [L]
 
-[ScreenShot](https://raw.github.com/tssgery/newzdash/master/screens/unnamed-stats.jpg)
-
+Change to:
+RewriteRule ^(admin|install|newzdash).*$ - [L]
