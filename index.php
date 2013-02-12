@@ -5,7 +5,7 @@ include('config.php');
 if (!file_exists("config.php"))
 {
 	# send the browser to the configuration page, something is wrong!
-	header("Location: /install");
+	header("Location: ./install");
 }
 
 $page = "dashboard";
