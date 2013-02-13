@@ -1,12 +1,6 @@
 Newzdash
 ========
 
-** Ruhllatio's Change 02/13/2013 - **
-
-    Changing some JS script and font import (CSS) sources around 
-    for people (like me) using HTTPS and having insecure content errors
-
-
 NewzNab dashboard, based upon free Charisma bootstrap theme
 	
     Based off original work titled 'Charisma' by Muhammad Usman
@@ -45,3 +39,13 @@ RewriteRule ^(admin|install).*$ - [L]
 
 Change to:
 RewriteRule ^(admin|install|newzdash).*$ - [L]
+
+People who have helped
+======================
+
+** Ruhllatio's Change 02/13/2013 - **
+
+    Changing some JS script and font import (CSS) sources around 
+    for people (like me) using HTTPS and having insecure content errors
+
+
