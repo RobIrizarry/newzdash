@@ -36,7 +36,8 @@
 					</tr>
 				</table>
 				<br />
-				<strong>NewzDash Database Configuration:</strong>
+				<strong>NewzDash Database Configuration:</strong></br>
+				<strong>Note:</strong> This database needs to be created before hand, this installer will not create it for you.<br />
 				<table border="0" bordercolor="" style="background-color:" width="350" cellpadding="3" cellspacing="3">
 					<tr>
 						<td><div align="right">Hostname</div></td>

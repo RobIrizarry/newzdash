@@ -10,6 +10,9 @@ $sql = "SELECT COUNT(`id`) AS total_entries
 $result = $nddb->queryOneRow($sql);
 $total_entries = $result["total_entries"];
 
+if ( !isset($_SESSION['total']) )
+	$_SESSION['total'] = 0;
+
 if ( $_SESSION['total'] == 0 )
 	$_SESSION['total'] = $total_entries-10;
 	
