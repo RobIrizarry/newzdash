@@ -7,7 +7,7 @@
 */
 
 
-require_once(WWW_DIR."/lib/framework/db.php");
+/*require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/page.php");
 require_once(WWW_DIR."/lib/binaries.php");
 require_once(WWW_DIR."/lib/users.php");
@@ -22,7 +22,7 @@ require_once(WWW_DIR."/lib/releasefiles.php");
 require_once(WWW_DIR."/lib/releaseextra.php");
 require_once(WWW_DIR."/lib/releaseimage.php");
 require_once(WWW_DIR."/lib/releasecomments.php");
-require_once(WWW_DIR."/lib/postprocess.php");
+require_once(WWW_DIR."/lib/postprocess.php");*/
 
 class Releases
 {	

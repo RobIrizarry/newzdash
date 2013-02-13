@@ -4,13 +4,14 @@
 		https://github.com/Aaron-/nnplus/blob/momo/www/lib/groups.php
 		
 	-- AlienX
-*/
+
 require_once(WWW_DIR."/lib/framework/db.php");
 require_once(WWW_DIR."/lib/category.php");
 require_once(WWW_DIR."/lib/nntp.php");
 require_once(WWW_DIR."/lib/site.php");
 require_once(WWW_DIR."/lib/releases.php");
 require_once(WWW_DIR."/lib/binaries.php");
+*/
 
 class Groups
 {	

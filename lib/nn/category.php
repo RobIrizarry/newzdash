@@ -4,9 +4,10 @@
 		https://github.com/Aaron-/nnplus/blob/momo/www/lib/category.php
 		
 	--AlienX
-*/
+
 
 require_once(WWW_DIR."/lib/framework/db.php");
+*/
 
 class Category
 {
