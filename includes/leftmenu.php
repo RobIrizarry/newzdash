@@ -9,9 +9,6 @@
 			<li><a class="ajax-link" href="index.php?p=statistics"><i class="icon-eye-open"></i><span class="hidden-tablet"> Statistics</span></a></li>
 			<li class="nav-header hidden-tablet">TMUX Info</li>
 			<li><a class="ajax-link" href="index.php?p=tmuxpanelog"><i class="icon-list-alt"></i><span class="hidden-tablet"> TMUX Pane Log</span></a></li>
-			<li class="nav-header hidden-tablet">Other Stuff</li>
-			<li><a class="ajax-link" href="configure_new.php"><i class="icon-list-alt"></i><span class="hidden-tablet"> Configure</span></a></li>
-			<li><a class="ajax-link" href="index.php?p=changelog"><i class="icon-list-alt"></i><span class="hidden-tablet"> Change Log</span></a></li>
 		</ul>
 	</div><!--/.well -->
 </div><!--/span-->

@@ -1,14 +1,3 @@
-<!DOCTYPE html>
-<?php
-
-
-?>
-
-
-
-
-<!-- head starts -->
-<head>
 	<!--
 		NewzDash v1.0.0
 
@@ -131,6 +120,3 @@
 	<script src="js/jquery.history.js"></script>
 	<!-- application script for Charisma demo -->
 	<script src="js/charisma.js"></script>
-	
-</head>
-<!-- head ends -->
