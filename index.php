@@ -58,8 +58,8 @@ require_once("lib/dashdata.php");
 $dashdata = new DashData;
 
 ?>
- 
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
 <?php
 	if ( $pageScripts ) {

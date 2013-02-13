@@ -25,32 +25,17 @@ ToDo
 - Enable newzdash version checking and automatic updates
 
 Ref #1
-------
+Create a new vhost file, for apache thats:
 
-	Create a new vhost file, for apache thats:
-	/etc/apache2/sites-enabled
-	
-
+/etc/apache2/sites-enabled
 
 Ref #2
-------
 
-	If you are wanting to put newzdash in a sub directory of newznab, you will have to modify the .htaccess file of Newznab.
+If you are wanting to put newzdash in a sub directory of newznab, you will have to modify the .htaccess file of Newznab.
 
-	Find:
-	RewriteRule ^(admin|install).*$ - [L]
+Find:
 
-	Change to:
-	RewriteRule ^(admin|install|newzdash).*$ - [L]
+RewriteRule ^(admin|install).*$ - [L]
 
-
-
-People who have helped
-======================
-
-** Ruhllatio's Change 02/13/2013 - **
-
-    Changing some JS script and font import (CSS) sources around 
-    for people (like me) using HTTPS and having insecure content errors
-
-
+Change to:
+RewriteRule ^(admin|install|newzdash).*$ - [L]
