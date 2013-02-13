@@ -29,6 +29,8 @@
 		public $hasError = false;
 		public $errorText = array();
 		
+		public $installStep = 0;
+		
 		function setInstallerOptions() {
 			$this->WWW_DIR = dirname(realpath('.'));
 			$this->INSTALL_DIR = $this->WWW_DIR . "/install";
@@ -132,7 +134,6 @@
 		function tryDatabaseConnection($where) {
 			switch ($where)
 			{
-			
 				case "newznab":
 					$conn = @new mysqli($this->DB_NNDB_HOST, $this->DB_NNDB_USER, $this->DB_NNDB_PASS, $this->DB_NNDB_DBNAME);
 					if ( $conn->connect_errno )

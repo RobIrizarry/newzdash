@@ -175,35 +175,34 @@
 			$config->resetErrors();
 			
 			$dbConnection_newznab = $config->tryDatabaseConnection("newznab");
-			if ( $config->hasError )
-				die ( "MySQL Died between step 3 and 4 - check your SQL configuration...<br />MySQL Said: " . $dbConnection_newzdash->error . "." );
-				
-			if ( !file_exists($config->INSTALL_DIR.'/sql/install.sql')	 )
-				die ( "install.sql cannot be found, maybe you need to pull the github repo again?" );
-			
-			
-			$dbConnection_newzdash = $config->tryDatabaseConnection("newzdash");
-			if ( $config->hasError )
-				die ( "MySQL Died between step 3 and 4 - check your SQL configuration...<br />MySQL Said: " . $dbConnection_newzdash->error . "." );
-				
-			if ( !file_exists($config->INSTALL_DIR.'/sql/install.sql')	 )
-				die ( "install.sql cannot be found, maybe you need to pull the github repo again?" );
-			
-			$queryFile = file_get_contents($config->INSTALL_DIR.'/sql/install.sql');
-			$queries = explode(";", $queryFile);
-			foreach ( $queries as $query )
+			if ( !$config->hasError )
 			{
-				if ( $query != "" )
+				if ( !file_exists($config->INSTALL_DIR.'/sql/install.sql')	 )
+					die ( "install.sql cannot be found!" );
+				
+				$dbConnection_newzdash = $config->tryDatabaseConnection("newzdash");
+				if ( !$config->hasError )
 				{
-					$queryData = @$dbConnection_newzdash->query ( $query . ";" );
-					if ( $queryData === FALSE ) {
-						$config->hasError = true;
-						$config->errorText[] = $dbConnection_newzdash->error;
+					if ( !file_exists($config->INSTALL_DIR.'/sql/install.sql')	 )
+						die ( "install.sql cannot be found, maybe you need to pull the github repo again?" );
+					$queryFile = file_get_contents($config->INSTALL_DIR.'/sql/install.sql');
+					$queries = explode(";", $queryFile);
+					foreach ( $queries as $query )
+					{
+						if ( $query != "" )
+						{
+							$queryData = $dbConnection_newzdash->query ( $query . ";" );
+							if ( $queryData === FALSE ) {
+								$config->hasError = true;
+								$config->errorText[] = $dbConnection_newzdash->error;
+							}
+						}
 					}
+					
+					mysqli_close($dbConnection_newzdash);
+					mysqli_close($dbConnection_newznab);
 				}
 			}
-			
-			mysqli_close($dbConnection_newzdash);
 			break;
 			
 		case INSTALL_STEP_SAVECONFIG:
@@ -218,7 +217,7 @@
 	}
 	
 	//Check if the installer has already created its lock file
-	if ( $config->isLocked() ) {
+	if ( $config->isLocked() && $config->installStep == 0 ) {
 		$config->hasError = true;
 	}
 	
@@ -226,7 +225,12 @@
 	if ( $config->hasError )
 		$installStep--;
 				
+	
 	$installPage = "step" . $installStep;
+	$config->installStep = $installStep;
+	
+	//Save the current session data
+	$config->setSession();
 ?>
 
 <!-- head starts -->

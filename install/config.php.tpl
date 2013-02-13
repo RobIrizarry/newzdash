@@ -1,5 +1,5 @@
 <?php
-//NEWZNAB CONFIGURATION
+//NEWZNAB CONFIGURATION v0.2
 define('NEWZNAB_URL','%%NNURL%%');
 define('NEWZNAB_HOME', '%%NNDIR%%');
 
@@ -24,11 +24,11 @@ define('DB_NAME', '%%DB_NNDB_DBNAME%%');
 define('DB_PCONNECT', %%DB_NNDB_PCONNECT%%);
 
 //SQL CONFIGURATION (newzdash)
-define('DB_NNDB_HOST', '%%DB_NDDB_HOST%%');
-define('DB_NNDB_USER', '%%DB_NDDB_USER%%');
-define('DB_NNDB_PASSWORD', '%%DB_NDDB_PASS%%');
-define('DB_NNDB_NAME', '%%DB_NDDB_DBNAME%%');
-define('DB_NNDB_PCONNECT', %%DB_NDDB_PCONNECT%%);
+define('DB_NDDB_HOST', '%%DB_NDDB_HOST%%');
+define('DB_NDDB_USER', '%%DB_NDDB_USER%%');
+define('DB_NDDB_PASSWORD', '%%DB_NDDB_PASS%%');
+define('DB_NDDB_NAME', '%%DB_NDDB_DBNAME%%');
+define('DB_NDDB_PCONNECT', %%DB_NDDB_PCONNECT%%);
 
 //DASHBOARD UPDATE DELAY (1000 = 1 second)
 define('JSUPDATE_DELAY', '%%JSUPDATE_DELAY%%');

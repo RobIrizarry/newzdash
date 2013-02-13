@@ -1,11 +1,16 @@
 
 <?php
-include('config.php');
-
 if (!file_exists("config.php"))
 {
 	# send the browser to the configuration page, something is wrong!
 	header("Location: ./install");
+}
+
+include('config.php');
+
+if ( !defined("DB_NDDB_HOST") )
+{
+	die ( "Unable to find DB_NDDB_HOST, this is normally due to a git pull and a large update - please delete config.php, install.lock and try again." );
 }
 
 $page = "dashboard";
