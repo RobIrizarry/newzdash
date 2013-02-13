@@ -16,6 +16,7 @@
 						echo ( "<hr style=\"color:#000000; background-color:#000000; height:3px;\">" );
 					}
 				?>
+				Found newznab install titled <?php echo ( $config->DB_NNDB_TITLE ); ?>, we are linked into this database now.<br />
 				Pre-SQL Connection Checks were Okay, ready to install the required tables.<br /><br />
 				<form action="" method="post">
 					<input type="submit" value="Install Tables" />

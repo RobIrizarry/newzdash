@@ -16,11 +16,11 @@
 			<form action="" method="post">
 			
 				<h3 style="display:inline;">MySQL Configuration</h3><br />
-				<a href="#" onClick="tryFetchSettings();">Grab from Newznab Install</a> - (Requires Javascript & JQuery to be enabled)<br /><br /><strong>Note: This must be the same database where newznab is installed.</strong>
+				<strong>Newznab Database Configuration:</strong>
 				<table border="0" bordercolor="" style="background-color:" width="350" cellpadding="3" cellspacing="3">
 					<tr>
 						<td><div align="right">Hostname</div></td>
-						<td><div align="left"><input type="text" name="db_host" id="db_host" value="<?php echo ( $config->DB_NNDB_HOST ); ?>"></div></td>
+						<td><div align="left"><input type="text" name="db_host" value="<?php echo ( $config->DB_NNDB_HOST ); ?>"></div></td>
 					</tr>
 					<tr>
 						<td><div align="right">User</div></td>
@@ -33,6 +33,26 @@
 					<tr>
 						<td><div align="right">Database</div></td>
 						<td><div align="left"><input type="text" name="db_name" value="<?php echo ( $config->DB_NNDB_DBNAME ); ?>"></div></td>
+					</tr>
+				</table>
+				<br />
+				<strong>NewzDash Database Configuration:</strong>
+				<table border="0" bordercolor="" style="background-color:" width="350" cellpadding="3" cellspacing="3">
+					<tr>
+						<td><div align="right">Hostname</div></td>
+						<td><div align="left"><input type="text" name="nddb_host" value="<?php echo ( $config->DB_NDDB_HOST ); ?>"></div></td>
+					</tr>
+					<tr>
+						<td><div align="right">User</div></td>
+						<td><div align="left"><input type="text" name="nddb_user" value="<?php echo ( $config->DB_NDDB_USER ); ?>"></div></td>
+					</tr>
+					<tr>
+						<td><div align="right">Password</div></td>
+						<td><div align="left"><input type="text" name="nddb_password" value="<?php echo ( $config->DB_NDDB_PASS ); ?>"></div></td>
+					</tr>
+					<tr>
+						<td><div align="right">Database</div></td>
+						<td><div align="left"><input type="text" name="nddb_name" value="<?php echo ( $config->DB_NDDB_DBNAME ); ?>"></div></td>
 					</tr>
 				</table>
 				<br />

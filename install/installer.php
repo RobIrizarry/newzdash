@@ -8,6 +8,13 @@
 		public $DB_NNDB_PASS = "";
 		public $DB_NNDB_PCONNECT = false;
 		public $DB_NNDB_DBNAME = "newznab";
+		public $DB_NNDB_TITLE;
+		
+		public $DB_NDDB_HOST = "localhost";
+		public $DB_NDDB_USER = "";
+		public $DB_NDDB_PASS = "";
+		public $DB_NDDB_PCONNECT = false;
+		public $DB_NDDB_DBNAME = "newzdash";
 		
 		public $WWW_DIR;
 		public $INSTALL_DIR;
@@ -31,12 +38,19 @@
 		function saveConfigFile() {
 			$cfgBuffer = file_get_contents($this->INSTALL_DIR . "/config.php.tpl");
 			
-			//Database
+			//Database [newznab]
 			$cfgBuffer = str_replace('%%DB_NNDB_HOST%%', $this->DB_NNDB_HOST, $cfgBuffer);
 			$cfgBuffer = str_replace('%%DB_NNDB_USER%%', $this->DB_NNDB_USER, $cfgBuffer);
 			$cfgBuffer = str_replace('%%DB_NNDB_PASS%%', $this->DB_NNDB_PASS, $cfgBuffer);
 			$cfgBuffer = str_replace('%%DB_NNDB_PCONNECT%%', $this->tftostring($this->DB_NNDB_PCONNECT), $cfgBuffer);
 			$cfgBuffer = str_replace('%%DB_NNDB_DBNAME%%', $this->DB_NNDB_DBNAME, $cfgBuffer);
+			
+			//Database [Newzdash]
+			$cfgBuffer = str_replace('%%DB_NDDB_HOST%%', $this->DB_NDDB_HOST, $cfgBuffer);
+			$cfgBuffer = str_replace('%%DB_NDDB_USER%%', $this->DB_NDDB_USER, $cfgBuffer);
+			$cfgBuffer = str_replace('%%DB_NDDB_PASS%%', $this->DB_NDDB_PASS, $cfgBuffer);
+			$cfgBuffer = str_replace('%%DB_NDDB_PCONNECT%%', $this->tftostring($this->DB_NDDB_PCONNECT), $cfgBuffer);
+			$cfgBuffer = str_replace('%%DB_NDDB_DBNAME%%', $this->DB_NDDB_DBNAME, $cfgBuffer);
 			
 			//Javascript
 			$cfgBuffer = str_replace('%%JSUPDATE_DELAY%%', $this->JSUPDATE_DELAY, $cfgBuffer);
@@ -115,14 +129,35 @@
 			return $randomString;
 		}
 		
-		function tryDatabaseConnection() {
-			$conn = @new mysqli($this->DB_NNDB_HOST, $this->DB_NNDB_USER, $this->DB_NNDB_PASS, $this->DB_NNDB_DBNAME);
-			if ( $conn->connect_errno )
+		function tryDatabaseConnection($where) {
+			switch ($where)
 			{
-				$this->hasError = true;
-				$this->errorText[] = "MySQL Connection Error: " . $conn->connect_error;
-			}else{
-				return $conn;
+			
+				case "newznab":
+					$conn = @new mysqli($this->DB_NNDB_HOST, $this->DB_NNDB_USER, $this->DB_NNDB_PASS, $this->DB_NNDB_DBNAME);
+					if ( $conn->connect_errno )
+					{
+						$this->hasError = true;
+						$this->errorText[] = "[newznab] MySQL Connection Error: " . $conn->connect_error;
+					}else{
+						return $conn;
+					}
+					break; 
+					
+				case "newzdash":
+					$conn = @new mysqli($this->DB_NDDB_HOST, $this->DB_NDDB_USER, $this->DB_NDDB_PASS, $this->DB_NDDB_DBNAME);
+					if ( $conn->connect_errno )
+					{
+						$this->hasError = true;
+						$this->errorText[] = "[newzdash] MySQL Connection Error: " . $conn->connect_error;
+					}else{
+						return $conn;
+					}
+					break;
+				
+				default:
+					return false;
+					break;
 			}
 		}
 	}

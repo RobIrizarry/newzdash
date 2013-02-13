@@ -6,6 +6,15 @@
 	DEFINE ( 'INSTALL_STEP_DATABASE', '5' );
 	DEFINE ( 'INSTALL_STEP_SAVECONFIG', '6' );
 	
+	if ( isset($_POST['submit']) ) {
+		if ( $_POST['submit'] == "Reset Settings" )
+		{
+			@session_unset();
+			@session_start();
+			unset($_POST['step']);
+		}
+	}
+	
 	$config = new Installer();
 	
 	if (!$config->isInitialized()) {
@@ -36,28 +45,63 @@
 		case INSTALL_STEP_CONFIG:
 			$config->resetErrors();
 			
+			
+			/*
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				~ Newznab Database Config
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			*/
 			if ( !$config->setOption('DB_NNDB_HOST', $_POST['db_host']) )
 			{
 				$config->hasError = true;
-				$config->errorText[] = "SQL Host must not be empty!";
+				$config->errorText[] = "[newznab] SQL Host must not be empty!";
 			}
 			
 			if ( !$config->setOption('DB_NNDB_USER', $_POST['db_user']) )
 			{
 				$config->hasError = true;
-				$config->errorText[] = "SQL User must not be empty!";
+				$config->errorText[] = "[newznab] SQL User must not be empty!";
 			}
 			
 			if ( !$config->setOption('DB_NNDB_PASS', $_POST['db_password']) )
 			{
 				$config->hasError = true;
-				$config->errorText[] = "SQL Password must not be empty!";
+				$config->errorText[] = "[newznab] SQL Password must not be empty!";
 			}
 			
 			if ( !$config->setOption('DB_NNDB_DBNAME', $_POST['db_name']) )
 			{
 				$config->hasError = true;
-				$config->errorText[] = "SQL Database Name must not be empty!";
+				$config->errorText[] = "[newznab] SQL Database Name must not be empty!";
+			}
+			
+			/*
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				~ NewzDash Database Config
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			*/
+			if ( !$config->setOption('DB_NDDB_HOST', $_POST['nddb_host']) )
+			{
+				$config->hasError = true;
+				$config->errorText[] = "[newzdash] SQL Host must not be empty!";
+			}
+			
+			if ( !$config->setOption('DB_NDDB_USER', $_POST['nddb_user']) )
+			{
+				$config->hasError = true;
+				$config->errorText[] = "[newzdash] SQL User must not be empty!";
+			}
+			
+			if ( !$config->setOption('DB_NDDB_PASS', $_POST['nddb_password']) )
+			{
+				$config->hasError = true;
+				$config->errorText[] = "[newzdash] SQL Password must not be empty!";
+			}
+			
+			if ( !$config->setOption('DB_NDDB_DBNAME', $_POST['nddb_name']) )
+			{
+				$config->hasError = true;
+				$config->errorText[] = "[newzdash] SQL Database Name must not be empty!";
 			}
 			
 			if ( !$config->setOption('TMUX_SHARED_SECRET', $_POST['tmux_shared_secret']) )
@@ -107,13 +151,27 @@
 					$config->errorText[] = "JS Update Delay should not be under 1 second (<1000)";
 				}
 			}
+			
+			if ( $config->DB_NNDB_DBNAME == $config->DB_NDDB_DBNAME ) {
+				$config->hasError = true;
+				$config->errorText[] = "You cannot use the same databases for both Newznab and NewzDash";
+			}
 
 			//Check SQL Connection
 			if ( !$config->hasError ) {
 				$config->resetErrors();
-				$config->tryDatabaseConnection();
-			}else{
-				echo $config->hasError;
+				$dbConnection_newznab = $config->tryDatabaseConnection("newznab");
+				$query = "SELECT value FROM site WHERE setting='title';";
+				$result = $dbConnection_newznab->query($query);
+				if ( $result === FALSE ) {
+					$config->hasError = true;
+					$config->errorText[] = "[newznab] This does not look like a newznab database, did you configure it correctly?";
+				}else{
+					$tmp = $result->fetch_assoc();
+					$config->DB_NNDB_TITLE = $tmp['value'];
+				}
+				
+				$dbConnection_newznab = $config->tryDatabaseConnection("newzdash");
 			}
 
 			break;
@@ -121,9 +179,17 @@
 		case INSTALL_STEP_DATABASE:
 			$config->resetErrors();
 			
-			$dbConnection = $config->tryDatabaseConnection();
+			$dbConnection_newznab = $config->tryDatabaseConnection("newznab");
 			if ( $config->hasError )
-				die ( "MySQL Died between step 3 and 4 - check your SQL configuration...<br />MySQL Said: " . mysql_error() );
+				die ( "MySQL Died between step 3 and 4 - check your SQL configuration...<br />MySQL Said: " . $dbConnection_newzdash->error . "." );
+				
+			if ( !file_exists($config->INSTALL_DIR.'/sql/install.sql')	 )
+				die ( "install.sql cannot be found, maybe you need to pull the github repo again?" );
+			
+			
+			$dbConnection_newzdash = $config->tryDatabaseConnection("newzdash");
+			if ( $config->hasError )
+				die ( "MySQL Died between step 3 and 4 - check your SQL configuration...<br />MySQL Said: " . $dbConnection_newzdash->error . "." );
 				
 			if ( !file_exists($config->INSTALL_DIR.'/sql/install.sql')	 )
 				die ( "install.sql cannot be found, maybe you need to pull the github repo again?" );
@@ -134,15 +200,15 @@
 			{
 				if ( $query != "" )
 				{
-					$queryData = @$dbConnection->query ( $query . ";" );
+					$queryData = @$dbConnection_newzdash->query ( $query . ";" );
 					if ( $queryData === FALSE ) {
 						$config->hasError = true;
-						$config->errorText[] = $dbConnection->error;
+						$config->errorText[] = $dbConnection_newzdash->error;
 					}
 				}
 			}
 			
-			mysqli_close($dbConnection);
+			mysqli_close($dbConnection_newzdash);
 			break;
 			
 		case INSTALL_STEP_SAVECONFIG:

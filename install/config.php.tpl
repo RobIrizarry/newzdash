@@ -16,12 +16,19 @@ define('SHOW_PROCESSING','checked');
 define('SHOW_RPC','checked');
 define('SHOW_RPG','checked');
 
-//SQL CONFIGURATION
+//SQL CONFIGURATION (newznab)
 define('DB_HOST', '%%DB_NNDB_HOST%%');
 define('DB_USER', '%%DB_NNDB_USER%%');
 define('DB_PASSWORD', '%%DB_NNDB_PASS%%');
 define('DB_NAME', '%%DB_NNDB_DBNAME%%');
 define('DB_PCONNECT', %%DB_NNDB_PCONNECT%%);
+
+//SQL CONFIGURATION (newzdash)
+define('DB_NNDB_HOST', '%%DB_NDDB_HOST%%');
+define('DB_NNDB_USER', '%%DB_NDDB_USER%%');
+define('DB_NNDB_PASSWORD', '%%DB_NDDB_PASS%%');
+define('DB_NNDB_NAME', '%%DB_NDDB_DBNAME%%');
+define('DB_NNDB_PCONNECT', %%DB_NDDB_PCONNECT%%);
 
 //DASHBOARD UPDATE DELAY (1000 = 1 second)
 define('JSUPDATE_DELAY', '%%JSUPDATE_DELAY%%');
