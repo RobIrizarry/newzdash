@@ -87,11 +87,11 @@
 		}
 				
 		public function isLocked() {
-			return (file_exists($this->INSTALL_DIR.'/install.lock') ? true : false);
+			return (file_exists($this->WWW_DIR.'/install.lock') ? true : false);
 		}
 		
 		public function lockInstall() {
-			return (@file_put_contents($this->INSTALL_DIR.'/install.lock', 'LOCKED INSTALL'));
+			return (@file_put_contents($this->WWW_DIR.'/install.lock', 'LOCKED INSTALL'));
 		}
 			
 		public function setSession() {

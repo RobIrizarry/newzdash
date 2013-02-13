@@ -27,11 +27,6 @@
 		$config = $config->getSession();
 	}
 	
-	//Check if the installer has already created its lock file
-	if ( $config->isLocked() ) {
-		$config->hasError = true;
-	}
-
 	if ( isset($_POST['step']) )
 	{
 		$installStep = $_POST['step'];
@@ -222,13 +217,16 @@
 			break;
 	}
 	
+	//Check if the installer has already created its lock file
+	if ( $config->isLocked() ) {
+		$config->hasError = true;
+	}
+	
 	//Backup a step as we are erroring.
 	if ( $config->hasError )
 		$installStep--;
 				
-	$config->setSession();
 	$installPage = "step" . $installStep;
-	
 ?>
 
 <!-- head starts -->
@@ -325,7 +323,7 @@
 					
 					if ( $page != "" )
 					{
-						if ( $config->hasError && !count($config->errorText) )
+						if ( $config->hasError && count($config->errorText)==0 )
 						{
 							if ( $config->isLocked() )
 							{
