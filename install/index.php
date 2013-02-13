@@ -185,6 +185,7 @@
 				{
 					if ( !file_exists($config->INSTALL_DIR.'/sql/install.sql')	 )
 						die ( "install.sql cannot be found, maybe you need to pull the github repo again?" );
+						
 					$queryFile = file_get_contents($config->INSTALL_DIR.'/sql/install.sql');
 					$queries = explode(";", $queryFile);
 					foreach ( $queries as $query )
@@ -194,7 +195,7 @@
 							$queryData = $dbConnection_newzdash->query ( $query . ";" );
 							if ( $queryData === FALSE ) {
 								$config->hasError = true;
-								$config->errorText[] = $dbConnection_newzdash->error;
+								$config->errorText[] = "MySQL Error, MySQL Said: " . $dbConnection_newzdash->error;
 							}
 						}
 					}
