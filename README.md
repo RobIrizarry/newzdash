@@ -1,6 +1,11 @@
 Newzdash
 ========
 
+** Ruhllatio's Change 02/13/2013 - **
+
+Changing some JS script sources around for people using HTTPS/Chrome and having insecure content errors
+
+
 NewzNab dashboard, based upon free Charisma bootstrap theme
 	
     Based off original work titled 'Charisma' by Muhammad Usman
