@@ -18,6 +18,9 @@ Installation Instructions
 - Configure your web server to either: Run NewzDash on a subdomain (ref #1), or run NewzDash in a sub folder (ref #2).
 - Access NewzDash via your browser and start the install process.
 
+NEW
+- Install the scripts from modified_scripts to make tmux work correctly at the moment (Still waiting on Jonnyboy implementation)
+
 
 ToDo
 - Add authentication to NewzDash, using users stored within newznab
