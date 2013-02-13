@@ -1,4 +1,4 @@
-<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>">
 <script>
 	function updateReleaseCount() {
 		$("#releaseCount").load("api.php?mode=releases");
