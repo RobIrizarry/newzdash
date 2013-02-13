@@ -1,8 +1,26 @@
 	<!-- breadcrumbs end -->
 	<div class="breadcrumb">
-		<h2>NewzDash Main Monitor</h2><hr style="color:#000000; background-color:#000000; height:3px;"><br />
-		Most notification panes are updated automatically every <?php echo ( JSUPDATE_DELAY/1000 . " seconds."); ?><br /><br />
-		<strong>This is Alpha Software, while it does not write to your database, it does read from it - use at your own risk!</strong>
+		<h2>NewzDash Main Monitor</h2><hr style="color:#000000; background-color:#000000; height:3px;">
+		
+		<table border="0" width="100%" cellpadding="0" cellspacing="0">
+			<tr>
+				<td width="5%">
+					<div align="center"><strong>Log ID</strong></div>
+				</td>
+				<td width="50%">
+					<div align="center"><strong>Pane Name</strong></div>
+				</td>
+				<td width="30%">
+					<div align="center"><strong>State</strong></div>
+				</td>
+				<td>
+					<div align="center"><strong>Time Date</strong></div>
+				</td>
+			</tr>
+		</table>
+				
+		<div id="list" style="overflow:scroll; overflow-x:hidden; height:100px;">
+        </div>
 	</div>
 	
 	<!-- Count Dashboard summaries start -->
@@ -29,7 +47,7 @@
 			<div>Pending Processing</div>
 			<div id="pendingprocessing">Loading...</div>
 		</a>
-
+		
 
 	</div>
 	<!-- Dashboard summaries end -->
