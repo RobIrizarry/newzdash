@@ -56,4 +56,7 @@ People who have helped
     Changing some JS script and font import (CSS) sources around 
     for people (like me) using HTTPS and having insecure content errors
 
-
+** jangrewe (aka censor) **
+   
+   Changing CSS stuff, and other things I forget :P
+   
