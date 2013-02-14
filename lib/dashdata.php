@@ -233,7 +233,7 @@ class DashData
 		#svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_USERNAME, SVN_USERNAME );
 		#svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_PASSWORD, SVN_PASSWORD );
 		$svn_stat=svn_status(realpath(NEWZNAB_HOME), SVN_NON_RECURSIVE|SVN_ALL);
-		$current_version=sprintf("%s", $svn_stat[0]["revision"]);
+		$current_version=sprintf("%s", $svn_stat[0]["cmt_rev"]);
 		
 	
 		#$svn_info=svn_info(realpath(NEWZNAB_HOME), SVN_SHOW_UPDATES);
