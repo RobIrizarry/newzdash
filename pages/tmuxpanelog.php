@@ -1,4 +1,7 @@
-
+<?php
+	if ( isset($_SESSION['total']) )
+		$_SESSION['total'] = 0;
+?>
 			<!-- breadcrumbs end -->
 			<div class="breadcrumb">
 				<h2>TMUX Pane Log</h2><hr style="color:#000000; background-color:#000000; height:3px;"><br />
@@ -19,6 +22,7 @@
 					</tr>
 				</table>
 						
-				<div id="list" style="overflow:scroll; overflow-x:hidden; height:100px;">
+				<div id="list" style="overflow:scroll; overflow-x:hidden; height:500px;">
+				</div>
 				<br />
 			</div>

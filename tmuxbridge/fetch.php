@@ -5,6 +5,8 @@ include("./../lib/sql/db_newzdash.php");
 
 $nddb = new NDDB;
 
+$limit = 10;
+
 $sql = "SELECT COUNT(`id`) AS total_entries
         FROM `newzdash_tmuxlog`";
 $result = $nddb->queryOneRow($sql);
@@ -13,8 +15,18 @@ $total_entries = $result["total_entries"];
 if ( !isset($_SESSION['total']) )
 	$_SESSION['total'] = 0;
 
+$options = null;
+if ( isset($_GET['options']) )
+	$options = $_GET['options'];
+	
+if ( $options == "limit" )
+{
+	$_SESSION['total'] = 0;
+	$limit = 200;
+}	
+	
 if ( $_SESSION['total'] == 0 )
-	$_SESSION['total'] = $total_entries-10;
+	$_SESSION['total'] = $total_entries-$limit;
 	
 if($_SESSION["total"] != $total_entries){
     $limit = $total_entries - $_SESSION["total"];
