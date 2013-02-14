@@ -39,7 +39,7 @@ if($_SESSION["total"] != $total_entries){
 			{
 				case "1": $pState = "Started"; $tableRowColor = "#D8FFD8"; break;
 				case "2": $pState = "Stopped"; $tableRowColor = "#F5CCCC"; break;
-				case "3": $pState = "Killed"; $tableRowColor = "#F5CCCC"; break;
+				case "3": $pState = "Killed"; $tableRowColor = "#CCCCF5"; break;
 			}
 			
 			switch ( strtolower($pName) ) {

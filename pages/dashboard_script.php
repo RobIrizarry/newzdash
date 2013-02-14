@@ -43,8 +43,8 @@
 			url: './tmuxbridge/fetch.php',
 			success: function(data) {
 				$("#list").prepend(data);
-				if($("#list table").length > 10){
-					$('#list table:gt(9)').remove();
+				if($("#list table").length > 30){
+					$('#list table:gt(29)').remove();
 				}
 				$("#list p").fadeIn();
 				setTimeout("fetchTMUXLog()", 1000);
