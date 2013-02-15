@@ -47,7 +47,7 @@
 			if ( !$nddb->isOkay() )
 				die("err db");
 				
-			$query = 'INSERT INTO `newzdash`.`newzdash_tmuxlog` (`id`, `PANE_NAME`, `PANE_STATE`, `TIMESTAMP`) VALUES (NULL, \'' . $paneName . '\', \'' . $updateState . '\', CURRENT_TIMESTAMP);';
+			$query = 'INSERT INTO `'. DB_NDDB_NAME .'`.`newzdash_tmuxlog` (`id`, `PANE_NAME`, `PANE_STATE`, `TIMESTAMP`) VALUES (NULL, \'' . $paneName . '\', \'' . $updateState . '\', CURRENT_TIMESTAMP);';
 			$result = $nddb->queryInsert($query);
 			if ( $result ) {
 				echo "ok";
