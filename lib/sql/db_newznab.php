@@ -11,38 +11,38 @@
 
 require_once ( WWW_DIR . '/lib/sql/db_cache.php' );
 
-class NDDB
+class DB
 {
 	private static $initialized = false;
 	private static $mysqliHandle = null;
 
-	function NDDB()
+	function DB()
 	{
-		if (NDDB::$initialized === false)
+		if (DB::$initialized === false)
 		{
-			if ( DB_NDDB_PORT > 0 )
+			if ( DB_PORT > 0 )
 			{
-				NDDB::$mysqliHandle = @new mysqli(DB_NDDB_HOST, DB_NDDB_USER, DB_NDDB_PASSWORD, DB_NDDB_NAME, DB_NDDB_PORT);
+				DB::$mysqliHandle = @new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME, DB_PORT);
 			}else{
-				NDDB::$mysqliHandle = @new mysqli(DB_NDDB_HOST, DB_NDDB_USER, DB_NDDB_PASSWORD, DB_NDDB_NAME);
+				DB::$mysqliHandle = @new mysqli(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
 			}
 			
-			if ( NDDB::$mysqliHandle->connect_errno )
+			if ( DB::$mysqliHandle->connect_errno )
 			{
-				printf ( "Unable to establish a connection to the SQL Server, SQL Said:\n%s", NDDB::$mysaliHandle->connect_error() );
+				printf ( "Unable to establish a connection to the SQL Server, SQL Said:\n%s", DB::$mysaliHandle->connect_error() );
 				exit();
 			}
 			
-			NDDB::$mysqliHandle->select_db(DB_NDDB_NAME)
-				or die("Unable to select the database '" . DB_NDDB_NAME . "', check your configuration!");
+			DB::$mysqliHandle->select_db(DB_NAME)
+				or die("Unable to select the database '" . DB_NAME . "', check your configuration!");
 			
-			NDDB::$initialized = true;
+			DB::$initialized = true;
 		}			
 	}	
 	
 	public function isOkay()
 	{
-		if ( NDDB::$initialized ) {
+		if ( DB::$initialized ) {
 			return true;
 		}else{
 			return false;
@@ -51,8 +51,8 @@ class NDDB
 					
 	public function queryInsert($query, $returnlastid=true)
 	{
-		$result = NDDB::$mysqliHandle->query($query);
-		return ($returnlastid) ? NDDB::$mysqliHandle->insert_id : $result;
+		$result = DB::$mysqliHandle->query($query);
+		return ($returnlastid) ? DB::$mysqliHandle->insert_id : $result;
 	}
 	
 	public function queryOneRow($query, $useCache = false, $cacheTTL = '')
@@ -78,7 +78,7 @@ class NDDB
             }
         }
 
-        $result = NDDB::$mysqliHandle->query($query);
+        $result = DB::$mysqliHandle->query($query);
 
 
         if ($result === false || $result === true)
@@ -103,7 +103,7 @@ class NDDB
 	*/
 	public function escapeString($str)
 	{
-		return "'" . NDDB::$mysqliHandle->real_escape_string($str) . "'";
+		return "'" . DB::$mysqliHandle->real_escape_string($str) . "'";
 	}
 }
 ?>
