@@ -84,11 +84,11 @@
 			<div>Parts Table Stats</div>
 			<div id="partstablestats">Loading...</div>
 		</a>
-		<a data-rel="tooltip" title="Subversion" class="well span4 top-block" href="#">
-			<span class="icon32 icon-blue icon-gear"></span>
-			<div>Placeholder</div>
-			<div id="unknown">0000</div>
+		
+		<a data-rel="tooltip" title="Versions" class="well span4 top-block" href="#">
+			<?php $dashdata->getDatabaseAndRegexInfo(); ?>
 		</a>
+		
 		<a data-rel="tooltip" title="Subversion" class="well span4 top-block" href="#">
 			<span class="icon32 icon-blue icon-gear"></span>
 			<div>Placeholder</div>
@@ -104,8 +104,8 @@
 			<?php $dashdata->getSubversionInfo(); ?>
 		</a>
 		
-		<a data-rel="tooltip" title="Versions" class="well span4 top-block" href="#">
-			<?php $dashdata->getDatabaseAndRegexInfo(); ?>
+		<a data-rel="tooltip" title="NewzNab-tmux" class="well span4 top-block" href="#">
+			<?php $dashdata->getNewzNabTmuxInfo(); ?>
 		</a>
 
 		<a data-rel="tooltip" title="NewzDash" class="well span4 top-block" href="#">
