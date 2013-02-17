@@ -1,7 +1,7 @@
 <?php
 
 if (!class_exists ( "DB" ))
-	require_once ( WWW_DIR . "/lib/sql/db.php" );
+	require_once ( WWW_DIR . "/lib/sql/db_newznab.php" );
 
 class DashData
 {
