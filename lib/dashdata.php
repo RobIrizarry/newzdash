@@ -124,6 +124,46 @@ class DashData
 		$data = $db->queryOneRow($sql);
 		return $data['cnt'];
 	}
+	
+	
+	/**
+	 * getNewzNabTmuxInfo
+	 */
+	public function getNewzNabTmuxInfo()
+	{
+		$tmuxpath = realpath(NEWZNAB_HOME).'/misc/update_scripts/nix_scripts/tmux';
+	    if (file_exists($tmuxpath.'/.git/HEAD'))
+	    {
+		$stringfromfile = file($tmuxpath.'/.git/HEAD', FILE_USE_INCLUDE_PATH);
+
+		$stringfromfile = $stringfromfile[0]; //get the string from the array
+    
+		$explodedstring = explode("/", $stringfromfile); //seperate out by the "/" in the string
+    
+		$branchname = $explodedstring[2]; //get the one that is always the branch name
+		$branchname = trim($branchname);
+		   
+		if (file_exists($tmuxpath."/.git/refs/heads/".$branchname))
+		{
+		    $gitversion=file_get_contents($tmuxpath."/.git/refs/heads/".$branchname);
+		}
+		else
+		{
+		    $gitversion="unknown";
+		}
+	    
+		printf('<span class="icon32 icon-blue icon-gear"></span>
+			    <div>NewzNab-tmux Branch: %s</div>
+			    <div>Revision: %s</div>', $branchname, substr($gitversion, 0, 10)."...");
+	    }
+	    else
+	    {
+		printf('<span class="icon32 icon-blue icon-gear"></span>
+			    <div>NewzNab-tmux Branch: %s</div>
+			    <div>Revision: %s</div>', "unknown", "unknown");	    
+			    
+	    }
+	}
     				
    
     
@@ -132,9 +172,6 @@ class DashData
 	 */
 	public function getNewzDashInfo()
 	{
-	    $sql=sprintf("select * from site where `setting`='latestregexrevision'");
-	    $db = new DB;
-	    $data = $db->queryOneRow($sql);
 	
 	    if (file_exists('.git/HEAD'))
 	    {
