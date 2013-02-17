@@ -22,6 +22,7 @@ define('DB_USER', '%%DB_NNDB_USER%%');
 define('DB_PASSWORD', '%%DB_NNDB_PASS%%');
 define('DB_NAME', '%%DB_NNDB_DBNAME%%');
 define('DB_PCONNECT', %%DB_NNDB_PCONNECT%%);
+define('DB_PORT', %%DB_NNDB_PORT%%);
 
 //SQL CONFIGURATION (newzdash)
 define('DB_NDDB_HOST', '%%DB_NDDB_HOST%%');
@@ -29,6 +30,7 @@ define('DB_NDDB_USER', '%%DB_NDDB_USER%%');
 define('DB_NDDB_PASSWORD', '%%DB_NDDB_PASS%%');
 define('DB_NDDB_NAME', '%%DB_NDDB_DBNAME%%');
 define('DB_NDDB_PCONNECT', %%DB_NDDB_PCONNECT%%);
+define('DB_NDDB_PORT', %%DB_NDDB_PORT%%);
 
 //DASHBOARD UPDATE DELAY (1000 = 1 second)
 define('JSUPDATE_DELAY', '%%JSUPDATE_DELAY%%');
