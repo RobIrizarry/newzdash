@@ -95,7 +95,7 @@ class Cache {
 					if ( xcache_isset($this->getKey($key)) ) {
 						$ret = $this->unpack(xcache_get($this->getKey($key)));
 					} else {
-						$ret = ''
+						$ret = '';
 					}
 					break;
 			}
