@@ -136,9 +136,9 @@ class Cache {
 			return "xcache";
 			
 		if (extension_loaded('memcache'))
-			return "memcache"
+			return "memcache";
 			
 		if (function_exists('apc_store'))
-			return "apc"
+			return "apc";
 	}
 }
