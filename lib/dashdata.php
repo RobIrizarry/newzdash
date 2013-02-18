@@ -3,6 +3,9 @@
 if (!class_exists ( "DB" ))
 	require_once ( WWW_DIR . "/lib/sql/db_newznab.php" );
 
+if (!class_exists("Cache"))
+	require_once ( WWW_DIR . "/lib/sql/db_cache.php" );
+	
 class DashData
 {
 	public function time_elapsed($secs)
@@ -130,16 +133,18 @@ class DashData
 	 */
 	public function getGitHubInfo($user, $repo)
 	{
-
-	    if (xcache_isset($user.'/'.$repo))
-	    {
-			$commit = xcache_get($user.'/'.$repo);
+		$cache = new Cache;
+		
+		if ( $cache->exists($user.'/'.$repo) )
+		{
+			$commit = $cache->fetch($user.'/'.$repo);
 	    }
 	    else
 	    {
 			$info = json_decode(file_get_contents('https://api.github.com/repos/'.$user.'/'.$repo.'/commits'));
 			$commit = substr($info[0]->sha, 0, 9);
-			xcache_set($user.'/'.$repo, $commit, 60*15);
+			
+			$cache->store($user.'/'.$repo, $commit);
 	    }
 	    
 	    return $commit;
@@ -151,10 +156,11 @@ class DashData
 	 */
 	public function getGitInfo($path)
 	{
-
-	    if (xcache_isset($path))
+		$cache = new Cache;
+		
+		if ( $cache->exists($path) )
 	    {
-			$commit = xcache_get($path);
+			$commit = $cache->fetch($path);
 	    }
 	    else
 	    {
@@ -164,15 +170,13 @@ class DashData
 			$branchname = $explodedstring[2]; //get the one that is always the branch name
 			$branchname = trim($branchname);
 			   
-			if (file_exists($path."/.git/refs/heads/".$branchname))
-			{
-				$commit=substr(file_get_contents($path."/.git/refs/heads/".$branchname), 0, 9);
-			}
-			else
-			{
-				$commit="unknown";
-			}
-				xcache_set($path, $commit, 60*15);
+				if (file_exists($path."/.git/refs/heads/".$branchname))
+				{
+					$commit=substr(file_get_contents($path."/.git/refs/heads/".$branchname), 0, 9);
+				} else {
+					$commit="unknown";
+				}
+				$cache->store($path, $commit);
 			}
 		}
 	    
@@ -264,18 +268,17 @@ class DashData
 	 */
 	public function getSubversionLatestFromRss()
 	{
-
-	    # cache the rss feed so we don't hammer the server
-	    # and a slight delay in knowing a new release is available is not that bad
-	    if (xcache_isset("newznabrss"))
+		$cache = new Cache;
+		
+		if ( $cache->exists("newznabrss") )
 	    {
-			$xml_source = xcache_get("newznabrss");
+			$xml_source = $cache->fetch("newznabrss");
 	    }
 	    else
 	    {
 			$xml_source = file_get_contents('http://newznab.com/plussvnrss.xml');
 			# store it for 15 minutes
-			xcache_set("newznabrss", $xml_source, 60*15);
+			$cache->store("newznabrss", $xml_source);
 	    }
 	    
 	    $x = simplexml_load_string($xml_source);
