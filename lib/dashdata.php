@@ -146,34 +146,49 @@ class DashData
 
 	}
 	
+	/**
+	 * getGitInfo
+	 */
+	public function getGitInfo($path)
+	{
+
+	    if (xcache_isset($path))
+	    {
+			$commit = xcache_get($path);
+	    }
+	    else
+	    {
+			if (file_exists($path.'/.git/HEAD'))
+			{
+			$explodedstring = explode("/", current(file($path.'/.git/HEAD', FILE_USE_INCLUDE_PATH)));	
+			$branchname = $explodedstring[2]; //get the one that is always the branch name
+			$branchname = trim($branchname);
+			   
+			if (file_exists($path."/.git/refs/heads/".$branchname))
+			{
+				$commit=substr(file_get_contents($path."/.git/refs/heads/".$branchname), 0, 9);
+			}
+			else
+			{
+				$commit="unknown";
+			}
+				xcache_set($path, $commit, 60*15);
+			}
+		}
+	    
+	    return $commit;
+
+	}
+	
 	
 	/**
 	 * getNewzNabTmuxInfo
 	 */
 	public function getNewzNabTmuxInfo()
 	{
-		$tmuxpath = realpath(NEWZNAB_HOME).'/misc/update_scripts/nix_scripts/tmux';
-	    if (file_exists($tmuxpath.'/.git/HEAD'))
-	    {
-		$stringfromfile = file($tmuxpath.'/.git/HEAD', FILE_USE_INCLUDE_PATH);
-
-		$stringfromfile = $stringfromfile[0]; //get the string from the array
-    
-		$explodedstring = explode("/", $stringfromfile); //seperate out by the "/" in the string
-    
-		$branchname = $explodedstring[2]; //get the one that is always the branch name
-		$branchname = trim($branchname);
-		   
-		if (file_exists($tmuxpath."/.git/refs/heads/".$branchname))
-		{
-		    $localversion=substr(file_get_contents($tmuxpath."/.git/refs/heads/".$branchname), 0, 9);
-		}
-		else
-		{
-		    $localversion="unknown";
-		}
 	    
 		$gitversion = DashData::getGitHubInfo('jonnyboy', 'newznab-tmux');
+		$localversion = DashData::getGitInfo(realpath(NEWZNAB_HOME).'/misc/update_scripts/nix_scripts/tmux');
 		
 		if ($gitversion === $localversion)
 		{
@@ -185,20 +200,14 @@ class DashData
 		    $version_string=sprintf("Running %s, Latest available is %s", $localversion, $gitversion);
 		    $notification_string=sprintf('<span class="notification red">!</span>');
 		}
-		
-		printf('<span class="icon32 icon-blue icon-gear"></span>
-			    <div>NewzNab-tmux</div>
-			    <div>%s</div>
-			    %s', $version_string, $notification_string);
-	    }
-	    else
-	    {
-		printf('<span class="icon32 icon-blue icon-gear"></span>
-			    <div>NewzNab-tmux</div>
-			    <div>%s</div>', "php subversion module is not installed");
-	    }
+				
+		printf('<span class="icon32 icon-blue icon-info"></span>
+				<div>NewzNab-tmux</div>
+				<div>%s</div>
+				%s', $version_string, $notification_string);
+
 	}
-    				
+
    
     
 	/**
@@ -206,27 +215,7 @@ class DashData
 	 */
 	public function getNewzDashInfo()
 	{
-	
-	    if (file_exists('.git/HEAD'))
-	    {
-		$stringfromfile = file('.git/HEAD', FILE_USE_INCLUDE_PATH);
-
-		$stringfromfile = $stringfromfile[0]; //get the string from the array
-    
-		$explodedstring = explode("/", $stringfromfile); //seperate out by the "/" in the string
-    
-		$branchname = $explodedstring[2]; //get the one that is always the branch name
-		$branchname = trim($branchname);
-		   
-		if (file_exists(".git/refs/heads/".$branchname))
-		{
-		    $localversion=substr(file_get_contents(".git/refs/heads/".$branchname), 0, 9);
-		}
-		else
-		{
-		    $localversion="unknown";
-		}
-		
+		$localversion = DashData::getGitInfo('./');
 		$gitversion = DashData::getGitHubInfo('alienxaxs', 'NewzDash');
 	    
 		if ($gitversion === $localversion)
@@ -240,17 +229,11 @@ class DashData
 		    $notification_string=sprintf('<span class="notification red">!</span>');
 		}
 		
-		printf('<span class="icon32 icon-blue icon-gear"></span>
+		printf('<span class="icon32 icon-blue icon-info"></span>
 			    <div>NewDash</div>
 			    <div>%s</div>
 			    %s', $version_string, $notification_string);
-	    }
-	    else
-	    {
-		printf('<span class="icon32 icon-blue icon-gear"></span>
-			    <div>NewzDash</div>
-			    <div>%s</div>', "php subversion module is not installed");
-	    }
+				
 	}
 	
     /**
@@ -338,8 +321,8 @@ class DashData
 		    $notification_string=sprintf('<span class="notification red">!</span>');
 		}
 		
-		printf('<span class="icon32 icon-blue icon-gear"></span>
-			    <div>NewzNab SVN Revision</div>
+		printf('<span class="icon32 icon-blue icon-info"></span>
+			    <div>NewzNab</div>
 			    <div>%s</div>
 			    %s', $version_string, $notification_string);
 	    }
