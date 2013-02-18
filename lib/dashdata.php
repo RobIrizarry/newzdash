@@ -125,6 +125,27 @@ class DashData
 		return $data['cnt'];
 	}
 	
+	/**
+	 * getGitHubInfo
+	 */
+	public function getGitHubInfo($user, $repo)
+	{
+
+	    if (xcache_isset($user.'/'.$repo))
+	    {
+			$commit = xcache_get($user.'/'.$repo);
+	    }
+	    else
+	    {
+			$info = json_decode(file_get_contents('https://api.github.com/repos/'.$user.'/'.$repo.'/commits'));
+			$commit = substr($info[0]->sha, 0, 9);
+			xcache_set($user.'/'.$repo, $commit, 60*15);
+	    }
+	    
+	    return $commit;
+
+	}
+	
 	
 	/**
 	 * getNewzNabTmuxInfo
@@ -145,30 +166,43 @@ class DashData
 		   
 		if (file_exists($tmuxpath."/.git/refs/heads/".$branchname))
 		{
-		    $gitversion=file_get_contents($tmuxpath."/.git/refs/heads/".$branchname);
+		    $localversion=substr(file_get_contents($tmuxpath."/.git/refs/heads/".$branchname), 0, 9);
 		}
 		else
 		{
-		    $gitversion="unknown";
+		    $localversion="unknown";
 		}
 	    
+		$gitversion = DashData::getGitHubInfo('jonnyboy', 'newznab-tmux');
+		
+		if ($gitversion === $localversion)
+		{
+		    $version_string=sprintf("Running latest version (%s)", $gitversion);
+		    $notification_string="";
+		}
+		else
+		{
+		    $version_string=sprintf("Running %s, Latest available is %s", $localversion, $gitversion);
+		    $notification_string=sprintf('<span class="notification red">!</span>');
+		}
+		
 		printf('<span class="icon32 icon-blue icon-gear"></span>
-			    <div>NewzNab-tmux Branch: %s</div>
-			    <div>Revision: %s</div>', $branchname, substr($gitversion, 0, 10)."...");
+			    <div>NewzNab-tmux</div>
+			    <div>%s</div>
+			    %s', $version_string, $notification_string);
 	    }
 	    else
 	    {
 		printf('<span class="icon32 icon-blue icon-gear"></span>
-			    <div>NewzNab-tmux Branch: %s</div>
-			    <div>Revision: %s</div>', "unknown", "unknown");	    
-			    
+			    <div>NewzNab-tmux</div>
+			    <div>%s</div>', "php subversion module is not installed");
 	    }
 	}
     				
    
     
 	/**
-	 * getRegexInfo
+	 * getNewzDashInfo
 	 */
 	public function getNewzDashInfo()
 	{
@@ -186,27 +220,40 @@ class DashData
 		   
 		if (file_exists(".git/refs/heads/".$branchname))
 		{
-		    $gitversion=file_get_contents(".git/refs/heads/".$branchname);
+		    $localversion=substr(file_get_contents(".git/refs/heads/".$branchname), 0, 9);
 		}
 		else
 		{
-		    $gitversion="unknown";
+		    $localversion="unknown";
 		}
+		
+		$gitversion = DashData::getGitHubInfo('alienxaxs', 'NewzDash');
 	    
+		if ($gitversion === $localversion)
+		{
+		    $version_string=sprintf("Running latest version (%s)", $gitversion);
+		    $notification_string="";
+		}
+		else
+		{
+		    $version_string=sprintf("Running %s, Latest available is %s", $localversion, $gitversion);
+		    $notification_string=sprintf('<span class="notification red">!</span>');
+		}
+		
 		printf('<span class="icon32 icon-blue icon-gear"></span>
-			    <div>NewzDash Branch: %s</div>
-			    <div>Revision: %s</div>', $branchname, substr($gitversion, 0, 10)."...");
+			    <div>NewDash</div>
+			    <div>%s</div>
+			    %s', $version_string, $notification_string);
 	    }
 	    else
 	    {
 		printf('<span class="icon32 icon-blue icon-gear"></span>
-			    <div>NewzDash Branch: %s</div>
-			    <div>Revision: %s</div>', "unknown", "unknown");	    
-			    
+			    <div>NewzDash</div>
+			    <div>%s</div>', "php subversion module is not installed");
 	    }
 	}
 	
-    	/**
+    /**
 	 * getDatabaseInfo
 	 */
 	public function getDatabaseAndRegexInfo()
