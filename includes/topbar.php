@@ -17,7 +17,7 @@ $util = new Utilities;
 				<span class="icon-bar"></span>
 				<span class="icon-bar"></span>
 			</a>
-			<a class="brand" href="index.php"><span>NewzDash</span></a>
+			<a class="brand" href="/"><span>NewzDash</span></a>
 			
 			<!-- theme selector starts -->
 			<div class="btn-group pull-right theme-container" >
