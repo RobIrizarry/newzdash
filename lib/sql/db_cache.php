@@ -28,9 +28,14 @@ class Cache {
 					$this->enabled = false;
 				else
 				{
-					$this->mc = new Memcache;
-					$this->mc->connect(CACHEOPT_MEMCACHE_SERVER, CACHEOPT_MEMCACHE_PORT) 
-						or $this->enabled = false;					
+					if ( defined("MEMCACHE_SERVER") && defined("MEMCACHE_PORT") )
+					{
+						$this->mc = new Memcache;
+						$this->mc->connect(CACHEOPT_MEMCACHE_SERVER, CACHEOPT_MEMCACHE_PORT) 
+							or $this->enabled = false;					
+					}else{
+						$this->enabled = false;
+					}
 				}
 			break;
 			default:
