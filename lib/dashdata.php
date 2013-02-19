@@ -135,16 +135,16 @@ class DashData
 	{
 		$cache = new Cache;
 		
-		if ( $cache->exists($user.'/'.$repo) )
+		if ( $cache->exists('version:'.$user.'/'.$repo) )
 		{
-			$commit = $cache->fetch($user.'/'.$repo);
+			$commit = $cache->fetch('version:'.$user.'/'.$repo);
 	    }
 	    else
 	    {
 			$info = json_decode(file_get_contents('https://api.github.com/repos/'.$user.'/'.$repo.'/commits'));
 			$commit = substr($info[0]->sha, 0, 9);
 			
-			$cache->store($user.'/'.$repo, $commit);
+			$cache->store('version:'.$user.'/'.$repo, $commit, $cache->ttl);
 	    }
 	    
 	    return $commit;
@@ -158,9 +158,9 @@ class DashData
 	{
 		$cache = new Cache;
 		
-		if ( $cache->exists($path) )
+		if ( $cache->exists('version:'.$path) )
 	    {
-			$commit = $cache->fetch($path);
+			$commit = $cache->fetch('version:'.$path);
 	    }
 	    else
 	    {
@@ -176,7 +176,7 @@ class DashData
 				} else {
 					$commit="unknown";
 				}
-				$cache->store($path, $commit);
+				$cache->store('version:'.$path, $commit, $cache->ttl);
 			}
 		}
 	    
@@ -272,7 +272,7 @@ class DashData
 	    {
 			$xml_source = file_get_contents('http://newznab.com/plussvnrss.xml');
 			# store it for 15 minutes
-			$cache->store("newznabrss", $xml_source);
+			$cache->store("newznabrss", $xml_source, $cache->ttl);
 	    }
 	    
 	    $x = simplexml_load_string($xml_source);
