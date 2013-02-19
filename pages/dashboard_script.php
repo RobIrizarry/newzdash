@@ -75,7 +75,7 @@
 		updateVersions();
 		fetchTMUXLog();
 		setInterval ( updateAll, <?php echo ( JSUPDATE_DELAY ); ?> );
-		setInterval ( updateVersions, 10*1000);
+		setInterval ( updateVersions, 5*60*1000);
 	});
 	
 </script>
