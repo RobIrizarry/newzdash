@@ -101,15 +101,21 @@
 	<div class="row-fluid">
 		
 		<a data-rel="tooltip" title="Subversion" class="well span4 top-block" href="#">
-			<?php $dashdata->getSubversionInfo(); ?>
+			<span class="icon32 icon-blue icon-info"></span>
+			<div>NewzNab</div>
+			<div id="newznabversion">Loading...</div>
 		</a>
 		
 		<a data-rel="tooltip" title="NewzNab-tmux" class="well span4 top-block" href="#">
-			<?php $dashdata->getNewzNabTmuxInfo(); ?>
+			<span class="icon32 icon-blue icon-info"></span>
+			<div>NewzNab-tmux</div>
+			<div id="newznabtmuxversion">Loading...</div>
 		</a>
 
 		<a data-rel="tooltip" title="NewzDash" class="well span4 top-block" href="#">
-			<?php $dashdata->getNewzDashInfo(); ?>
+			<span class="icon32 icon-blue icon-info"></span>
+			<div>NewzDash</div>
+			<div id="newzdashversion">Loading...</div>
 		</a>
 	</div>
 	<!-- Version summaries end -->

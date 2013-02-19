@@ -205,10 +205,7 @@ class DashData
 		    $notification_string=sprintf('<span class="notification red">!</span>');
 		}
 				
-		printf('<span class="icon32 icon-blue icon-info"></span>
-				<div>NewzNab-tmux</div>
-				<div>%s</div>
-				%s', $version_string, $notification_string);
+                return $version_string.$notification_string;
 
 	}
 
@@ -233,14 +230,11 @@ class DashData
 		    $notification_string=sprintf('<span class="notification red">!</span>');
 		}
 		
-		printf('<span class="icon32 icon-blue icon-info"></span>
-			    <div>NewDash</div>
-			    <div>%s</div>
-			    %s', $version_string, $notification_string);
+                return $version_string.$notification_string;
 				
 	}
 	
-    /**
+	/**
 	 * getDatabaseInfo
 	 */
 	public function getDatabaseAndRegexInfo()
@@ -324,16 +318,11 @@ class DashData
 		    $notification_string=sprintf('<span class="notification red">!</span>');
 		}
 		
-		printf('<span class="icon32 icon-blue icon-info"></span>
-			    <div>NewzNab</div>
-			    <div>%s</div>
-			    %s', $version_string, $notification_string);
+                return $version_string.$notification_string;
 	    }
 	    else
 	    {
-		printf('<span class="icon32 icon-blue icon-gear"></span>
-			    <div>NewzNab SVN Revision</div>
-			    <div>%s</div>', "php subversion module is not installed");
+                return "php subversion module is not installed";
 	    }
 	}
 	
