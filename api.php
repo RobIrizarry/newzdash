@@ -46,6 +46,18 @@
 			case "partstablestats":
 				$retVal = $dd->getPartsTableSize() . " (" . $dd->getPartsTableDBSize() . ")";
 				break;
+
+			case "newznabversion":
+				$retVal = $dd->getSubversionInfo();
+				break;
+				
+			case "newznabtmuxversion":
+				$retVal = $dd->getNewzNabTmuxInfo();
+				break;
+
+			case "newzdashversion":
+				$retVal = $dd->getNewzDashInfo();
+				break;
 				
 			case "":
 				

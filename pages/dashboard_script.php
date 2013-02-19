@@ -52,8 +52,30 @@
 		});
 	}
 	
-	$(function () {
-		setInterval ( updateAll, <?php echo ( JSUPDATE_DELAY ); ?> );
+	function updateVersions() {
+		updateNewzNabVersion();
+		updateNewzNabTmuxVersion();
+		updateNewzDashVersion();
+	}
+	
+	function updateNewzNabVersion() {
+		$("#newznabversion").load("./api.php?mode=newznabversion");
+	}
+	
+	function updateNewzNabTmuxVersion() {
+		$("#newznabtmuxversion").load("./api.php?mode=newznabtmuxversion");
+	}
+	
+	function updateNewzDashVersion() {
+		$("#newzdashversion").load("./api.php?mode=newzdashversion");
+	}
+	
+	
+	$(document).ready(function() {
+		updateVersions();
 		fetchTMUXLog();
+		setInterval ( updateAll, <?php echo ( JSUPDATE_DELAY ); ?> );
+		setInterval ( updateVersions, <?php echo ( CACHE_TTL ); ?>*1000);
 	});
+	
 </script>

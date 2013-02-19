@@ -135,16 +135,16 @@ class DashData
 	{
 		$cache = new Cache;
 		
-		if ( $cache->exists($user.'/'.$repo) )
+		if ( $cache->exists('version:'.$user.'/'.$repo) )
 		{
-			$commit = $cache->fetch($user.'/'.$repo);
+			$commit = $cache->fetch('version:'.$user.'/'.$repo);
 	    }
 	    else
 	    {
 			$info = json_decode(file_get_contents('https://api.github.com/repos/'.$user.'/'.$repo.'/commits'));
 			$commit = substr($info[0]->sha, 0, 9);
 			
-			$cache->store($user.'/'.$repo, $commit);
+			$cache->store('version:'.$user.'/'.$repo, $commit, $cache->ttl);
 	    }
 	    
 	    return $commit;
@@ -158,9 +158,9 @@ class DashData
 	{
 		$cache = new Cache;
 		
-		if ( $cache->exists($path) )
+		if ( $cache->exists('version:'.$path) )
 	    {
-			$commit = $cache->fetch($path);
+			$commit = $cache->fetch('version:'.$path);
 	    }
 	    else
 	    {
@@ -176,7 +176,7 @@ class DashData
 				} else {
 					$commit="unknown";
 				}
-				$cache->store($path, $commit);
+				$cache->store('version:'.$path, $commit, $cache->ttl);
 			}
 		}
 	    
@@ -205,10 +205,7 @@ class DashData
 		    $notification_string=sprintf('<span class="notification red">!</span>');
 		}
 				
-		printf('<span class="icon32 icon-blue icon-info"></span>
-				<div>NewzNab-tmux</div>
-				<div>%s</div>
-				%s', $version_string, $notification_string);
+                return $version_string.$notification_string;
 
 	}
 
@@ -233,14 +230,11 @@ class DashData
 		    $notification_string=sprintf('<span class="notification red">!</span>');
 		}
 		
-		printf('<span class="icon32 icon-blue icon-info"></span>
-			    <div>NewDash</div>
-			    <div>%s</div>
-			    %s', $version_string, $notification_string);
+                return $version_string.$notification_string;
 				
 	}
 	
-    /**
+	/**
 	 * getDatabaseInfo
 	 */
 	public function getDatabaseAndRegexInfo()
@@ -278,7 +272,7 @@ class DashData
 	    {
 			$xml_source = file_get_contents('http://newznab.com/plussvnrss.xml');
 			# store it for 15 minutes
-			$cache->store("newznabrss", $xml_source);
+			$cache->store("newznabrss", $xml_source, $cache->ttl);
 	    }
 	    
 	    $x = simplexml_load_string($xml_source);
@@ -324,16 +318,11 @@ class DashData
 		    $notification_string=sprintf('<span class="notification red">!</span>');
 		}
 		
-		printf('<span class="icon32 icon-blue icon-info"></span>
-			    <div>NewzNab</div>
-			    <div>%s</div>
-			    %s', $version_string, $notification_string);
+                return $version_string.$notification_string;
 	    }
 	    else
 	    {
-		printf('<span class="icon32 icon-blue icon-gear"></span>
-			    <div>NewzNab SVN Revision</div>
-			    <div>%s</div>', "php subversion module is not installed");
+                return "php subversion module is not installed";
 	    }
 	}
 	
