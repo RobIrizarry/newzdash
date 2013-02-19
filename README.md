@@ -59,4 +59,5 @@ People who have helped
 ** jangrewe (aka censor) **
    
    Changing CSS stuff, and other things I forget :P
+   And for being awesum!
    
