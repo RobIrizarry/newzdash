@@ -32,6 +32,19 @@ define('DB_NDDB_NAME', '%%DB_NDDB_DBNAME%%');
 define('DB_NDDB_PCONNECT', %%DB_NDDB_PCONNECT%%);
 define('DB_NDDB_PORT', %%DB_NDDB_PORT%%);
 
+//CACHE SETTINGS
+// - Supports: xcache, apc and memcache
+//
+// Optional values, defaults are:
+// - TTL: '600'
+// - METHOD: '' (if blank, the system will try to use whatever caching solution you have installed.
+define('CACHE_TTL', '%%CACHE_TTL%%');
+define('CACHE_METHOD', '%%CACHE_METHOD%%');
+
+// - Only required if you have memcache installed as your active caching solution
+define('MEMCACHE_SERVER', '%%MEMCACHE_SERVER%%');
+define('MEMCACHE_PORT', '%%MEMCACHE_PORT%%');
+
 //DASHBOARD UPDATE DELAY (1000 = 1 second)
 define('JSUPDATE_DELAY', '%%JSUPDATE_DELAY%%');
 
