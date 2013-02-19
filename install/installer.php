@@ -3,6 +3,9 @@
 	Class Installer
 	{
 		
+		/*
+			Newznab Database Settings (NNDB)
+		*/
 		public $DB_NNDB_HOST = "localhost";
 		public $DB_NNDB_USER = "";
 		public $DB_NNDB_PASS = "";
@@ -10,11 +13,19 @@
 		public $DB_NNDB_DBNAME = "newznab";
 		public $DB_NNDB_TITLE;
 		
+		/*
+			NewzDash Database Settings (NDDB)
+		*/
 		public $DB_NDDB_HOST = "localhost";
 		public $DB_NDDB_USER = "";
 		public $DB_NDDB_PASS = "";
 		public $DB_NDDB_PCONNECT = false;
 		public $DB_NDDB_DBNAME = "newzdash";
+		
+		public $CACHE_TTL = 600;
+		public $CACHE_METHOD;
+		public $MEMCACHE_SERVER;
+		public $MEMCACHE_PORT;
 		
 		public $WWW_DIR;
 		public $INSTALL_DIR;
@@ -54,6 +65,12 @@
 			$cfgBuffer = str_replace('%%DB_NDDB_PCONNECT%%', $this->tftostring($this->DB_NDDB_PCONNECT), $cfgBuffer);
 			$cfgBuffer = str_replace('%%DB_NDDB_DBNAME%%', $this->DB_NDDB_DBNAME, $cfgBuffer);
 			
+			//Cache
+			$cfgBuffer = str_replace('%%CACHE_TTL%%', $this->CACHE_TTL, $cfgBuffer);
+			$cfgBuffer = str_replace('%%CACHE_METHOD%%', $this->CACHE_METHOD, $cfgBuffer);
+			$cfgBuffer = str_replace('%%MEMCACHE_SERVER%%', $this->MEMCACHE_SERVER, $cfgBuffer);
+			$cfgBuffer = str_replace('%%MEMCACHE_PORT%%', $this->MEMCACHE_PORT, $cfgBuffer);
+			
 			//Javascript
 			$cfgBuffer = str_replace('%%JSUPDATE_DELAY%%', $this->JSUPDATE_DELAY, $cfgBuffer);
 			
@@ -81,7 +98,6 @@
 				return false;
 			}
 		}
-		
 		
 		public function resetErrors() {
 			$this->hasError = false;
