@@ -8,14 +8,14 @@ class Cache {
 	
 	function Cache() 
 	{
-		if (defined("CACHEOPT_TTLMEDIUM"))
-			$this->ttl =  CACHEOPT_TTLMEDIUM;
+		if (defined("CACHE_TTL"))
+			$this->ttl =  CACHE_TTL;
 
 		$this->method = $this->getMethodFromSystem();
 			
 		//Still allow the method to be overwritten by a config value.
-		if (defined("CACHEOPT_METHOD"))
-			$this->method = CACHEOPT_METHOD;
+		if (defined("CACHE_METHOD"))
+			$this->method = CACHE_METHOD;
 		
 		switch($this->method)
 		{
