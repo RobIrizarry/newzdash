@@ -31,7 +31,7 @@ class Cache {
 					if ( defined("MEMCACHE_SERVER") && defined("MEMCACHE_PORT") )
 					{
 						$this->mc = new Memcache;
-						$this->mc->connect(CACHEOPT_MEMCACHE_SERVER, CACHEOPT_MEMCACHE_PORT) 
+						$this->mc->connect(MEMCACHE_SERVER, MEMCACHE_PORT) 
 							or $this->enabled = false;					
 					}else{
 						$this->enabled = false;
