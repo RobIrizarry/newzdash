@@ -108,13 +108,13 @@
 		
 		<a data-rel="tooltip" title="NewzNab-tmux" class="well span4 top-block" href="#">
 			<span class="icon32 icon-blue icon-info"></span>
-			<div><a href="https://github.com/jonnyboy/newznab-tmux/commits/master">NewzNab-tmux</a></div>
+			<div>NewzNab-tmux</div>
 			<div id="newznabtmuxversion">Loading...</div>
 		</a>
 
 		<a data-rel="tooltip" title="NewzDash" class="well span4 top-block" href="#">
 			<span class="icon32 icon-blue icon-info"></span>
-			<div><a href="https://github.com/alienxaxs/newzdash/commits/master">NewzDash</a></div>
+			<div>NewzDash</div>
 			<div id="newzdashversion">Loading...</div>
 		</a>
 	</div>
