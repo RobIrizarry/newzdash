@@ -23,6 +23,10 @@
 						<td><div align="left"><input type="text" name="db_host" value="<?php echo ( $config->DB_NNDB_HOST ); ?>"></div></td>
 					</tr>
 					<tr>
+						<td><div align="right">Port</div></td>
+						<td><div align="left"><input type="text" name="db_port" value="<?php echo ( $config->DB_NNDB_PORT ); ?>"></div></td>
+					</tr>
+					<tr>
 						<td><div align="right">User</div></td>
 						<td><div align="left"><input type="text" name="db_user" value="<?php echo ( $config->DB_NNDB_USER ); ?>"></div></td>
 					</tr>
@@ -42,6 +46,10 @@
 					<tr>
 						<td><div align="right">Hostname</div></td>
 						<td><div align="left"><input type="text" name="nddb_host" value="<?php echo ( $config->DB_NDDB_HOST ); ?>"></div></td>
+					</tr>
+					<tr>
+						<td><div align="right">Port</div></td>
+						<td><div align="left"><input type="text" name="nddb_port" value="<?php echo ( $config->DB_NDDB_PORT ); ?>"></div></td>
 					</tr>
 					<tr>
 						<td><div align="right">User</div></td>
@@ -85,6 +93,35 @@
 						<td><div align="left"><input type="text" name="tmux_shared_secret" value="<?php echo ( $config->TMUX_SHARED_SECRET ); ?>"></div></td>
 					</tr>
 				</table>
+				<h3 style="display:inline;">Cache Configuration</h3>
+				<?php
+					if ( $config->CACHE_METHOD == "memcache" || ($config->getCacheMethodsFromSystem(true) == "memcache" && $config->CACHE_METHOD == "-2") )
+					{
+						echo ( "<table border=\"0\" bordercolor=\"\" style=\"background-color:\" width=\"350\" cellpadding=\"3\" cellspacing=\"3\">
+							<tr>
+								<td><div align=\"right\">Memcache IP</div></td>
+								<td><div align=\"left\"><input type=\"text\" name=\"memcache_server\" value=\"" . $config->MEMCACHE_SERVER . "\"></div></td>
+							</tr>
+							<tr>
+								<td><div align=\"right\">Memcache Port</div></td>
+								<td><div align=\"left\"><input type=\"text\" name=\"memcache_port\" value=\"" . $config->MEMCACHE_PORT . "\"></div></td>
+							</tr>
+						</table>" );
+					}else{
+						if ( $config->CACHE_METHOD != "-3" )
+						{
+							if ( $config->CACHE_METHOD != "-2" )
+							{
+								echo "<br />" . $config->CACHE_METHOD . " does not require any extra configuration.";
+							}else{
+								echo "<br />You are letting the system decide the best caching method, good for you!";
+							}
+						}else{
+							echo "<br />You have not installed a cache method, for this is bad!";
+						}
+					}
+				?>
+				
 				<div align="center">
 				<input type="submit" value="Next Step" />
 				</div>

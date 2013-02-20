@@ -11,6 +11,7 @@
 		public $DB_NNDB_PASS = "";
 		public $DB_NNDB_PCONNECT = false;
 		public $DB_NNDB_DBNAME = "newznab";
+		public $DB_NNDB_PORT = 3306;
 		public $DB_NNDB_TITLE;
 		
 		/*
@@ -20,8 +21,12 @@
 		public $DB_NDDB_USER = "";
 		public $DB_NDDB_PASS = "";
 		public $DB_NDDB_PCONNECT = false;
+		public $DB_NDDB_PORT = 3306;
 		public $DB_NDDB_DBNAME = "newzdash";
 		
+		/*
+			Cache Settings
+		*/
 		public $CACHE_TTL = 600;
 		public $CACHE_METHOD;
 		public $MEMCACHE_SERVER;
@@ -57,6 +62,7 @@
 			$cfgBuffer = str_replace('%%DB_NNDB_PASS%%', $this->DB_NNDB_PASS, $cfgBuffer);
 			$cfgBuffer = str_replace('%%DB_NNDB_PCONNECT%%', $this->tftostring($this->DB_NNDB_PCONNECT), $cfgBuffer);
 			$cfgBuffer = str_replace('%%DB_NNDB_DBNAME%%', $this->DB_NNDB_DBNAME, $cfgBuffer);
+			$cfgBuffer = str_replace('%%DB_NNDB_PORT%%', $this->DB_NNDB_PORT, $cfgBuffer);
 			
 			//Database [Newzdash]
 			$cfgBuffer = str_replace('%%DB_NDDB_HOST%%', $this->DB_NDDB_HOST, $cfgBuffer);
@@ -64,6 +70,7 @@
 			$cfgBuffer = str_replace('%%DB_NDDB_PASS%%', $this->DB_NDDB_PASS, $cfgBuffer);
 			$cfgBuffer = str_replace('%%DB_NDDB_PCONNECT%%', $this->tftostring($this->DB_NDDB_PCONNECT), $cfgBuffer);
 			$cfgBuffer = str_replace('%%DB_NDDB_DBNAME%%', $this->DB_NDDB_DBNAME, $cfgBuffer);
+			$cfgBuffer = str_replace('%%DB_NDDB_PORT%%', $this->DB_NDDB_PORT, $cfgBuffer);
 			
 			//Cache
 			$cfgBuffer = str_replace('%%CACHE_TTL%%', $this->CACHE_TTL, $cfgBuffer);
@@ -105,6 +112,7 @@
 		}
 				
 		public function isLocked() {
+			if ( $this->installStep > 0 ) return false;
 			return (file_exists($this->WWW_DIR.'/install.lock') ? true : false);
 		}
 		
@@ -151,7 +159,7 @@
 			switch ($where)
 			{
 				case "newznab":
-					$conn = @new mysqli($this->DB_NNDB_HOST, $this->DB_NNDB_USER, $this->DB_NNDB_PASS, $this->DB_NNDB_DBNAME);
+					$conn = @new mysqli($this->DB_NNDB_HOST, $this->DB_NNDB_USER, $this->DB_NNDB_PASS, $this->DB_NNDB_DBNAME, $this->DB_NNDB_PORT);
 					if ( $conn->connect_errno )
 					{
 						$this->hasError = true;
@@ -162,7 +170,7 @@
 					break; 
 					
 				case "newzdash":
-					$conn = @new mysqli($this->DB_NDDB_HOST, $this->DB_NDDB_USER, $this->DB_NDDB_PASS, $this->DB_NDDB_DBNAME);
+					$conn = @new mysqli($this->DB_NDDB_HOST, $this->DB_NDDB_USER, $this->DB_NDDB_PASS, $this->DB_NDDB_DBNAME, $this->DB_NDDB_PORT);
 					if ( $conn->connect_errno )
 					{
 						$this->hasError = true;
@@ -176,6 +184,36 @@
 					return false;
 					break;
 			}
+			return null;
+		}
+		
+		function getCacheMethodsFromSystem($returnCacheName = false)
+		{
+			$cacheMethods = array();
+			if (function_exists('apc_store'))
+				$cacheMethods[] = "apc";
+				
+			if (extension_loaded('memcache'))
+				$cacheMethods[] = "memcache";
+				
+			if ( function_exists("xcache_set") )
+				$cacheMethods[] = "xcache";
+				
+			if ( $returnCacheName )
+			{
+				if ( count($cacheMethods) )
+					return $cacheMethods[0];
+				else
+					return array();
+			}else{
+				return $cacheMethods;
+			}
+		}
+		
+		function setError($strErr)
+		{
+			$this->errorText[] = $strErr;
+			$this->hasError = true;
 		}
 	}
 ?>

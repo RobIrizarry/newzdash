@@ -2,6 +2,7 @@
 	@session_start();
 	require_once('./installer.php');
 	
+	DEFINE ( 'INSTALL_STEP_CACHE', '3' );
 	DEFINE ( 'INSTALL_STEP_CONFIG', '4' );
 	DEFINE ( 'INSTALL_STEP_DATABASE', '5' );
 	DEFINE ( 'INSTALL_STEP_SAVECONFIG', '6' );
@@ -37,6 +38,16 @@
 
 	switch ( $installStep )
 	{
+	
+		case INSTALL_STEP_CACHE:
+			$config->resetErrors();
+			
+			if ( (!$config->setOption('CACHE_METHOD', $_POST['cachemethod'])) || ($_POST['cachemethod'] == "-1") )
+			{
+				$config->setError("Please select a caching method to use from the list provided.");
+			}
+			break;
+	
 		case INSTALL_STEP_CONFIG:
 			$config->resetErrors();
 			
@@ -48,26 +59,27 @@
 			*/
 			if ( !$config->setOption('DB_NNDB_HOST', $_POST['db_host']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "[newznab] SQL Host must not be empty!";
+				$config->setError("[newznab] SQL Host must not be empty!");
+			}
+			
+			if ( !$config->setOption('DB_NNDB_PORT', $_POST['db_port']) )
+			{
+				$config->setError("[newznab] SQL Port must not be empty!");
 			}
 			
 			if ( !$config->setOption('DB_NNDB_USER', $_POST['db_user']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "[newznab] SQL User must not be empty!";
+				$config->setError("[newznab] SQL User must not be empty!");
 			}
 			
 			if ( !$config->setOption('DB_NNDB_PASS', $_POST['db_password']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "[newznab] SQL Password must not be empty!";
+				$config->setError("[newznab] SQL Password must not be empty!");
 			}
 			
 			if ( !$config->setOption('DB_NNDB_DBNAME', $_POST['db_name']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "[newznab] SQL Database Name must not be empty!";
+				$config->setError("[newznab] SQL Database Name must not be empty!");
 			}
 			
 			/*
@@ -77,96 +89,136 @@
 			*/
 			if ( !$config->setOption('DB_NDDB_HOST', $_POST['nddb_host']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "[newzdash] SQL Host must not be empty!";
+				$config->setError("[newzdash] SQL Host must not be empty!");
+			}
+			
+			if ( !$config->setOption('DB_NDDB_PORT', $_POST['nddb_port']) )
+			{
+				$config->setError("[newzdash] SQL Host must not be empty!");
 			}
 			
 			if ( !$config->setOption('DB_NDDB_USER', $_POST['nddb_user']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "[newzdash] SQL User must not be empty!";
+				$config->setError("[newzdash] SQL User must not be empty!");
 			}
 			
 			if ( !$config->setOption('DB_NDDB_PASS', $_POST['nddb_password']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "[newzdash] SQL Password must not be empty!";
+				$config->setError("[newzdash] SQL Password must not be empty!");
 			}
 			
 			if ( !$config->setOption('DB_NDDB_DBNAME', $_POST['nddb_name']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "[newzdash] SQL Database Name must not be empty!";
+				$config->setError("[newzdash] SQL Database Name must not be empty!");
 			}
 			
+			/*
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				~ NewzDash TMUX Shared Secret
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			*/
 			if ( !$config->setOption('TMUX_SHARED_SECRET', $_POST['tmux_shared_secret']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "TMUX Shared Secret is required!";
+				$config->setError("TMUX Shared Secret is required!");
 			}else{
 				if ( strlen($_POST['tmux_shared_secret']) < 10 )
 				{
-					$config->hasError = true;
-					$config->errorText[] = "TMUX Shared Secret is too short (10+ characters required)";
+					$config->setError("TMUX Shared Secret is too short (10+ characters required)");
 				}
-			}
+			}	
 			
+			/*
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				~ Newznab URL and Directory
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			*/
 			if ( !$config->setOption('NNURL', $_POST['nn_url']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "Newznab URL cannot be blank";
+				$config->setError("Newznab URL cannot be blank");
 			}else{
 				if ( $_POST['nn_url'] == "http://" )
 				{
-					$config->hasError = true;
-					$config->errorText[] = "Newznab URL has not been completed";
+					$config->setError("Newznab URL has not been completed");
 				}
 			}
 			
 			if ( !$config->setOption('NEWZNAB_DIR', $_POST['nn_path']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "Newznab Directory must not be empty!";
+				$config->setError("Newznab Directory must not be empty!");
 			}else{
 				//Double check to see if we can see the config.php!
 				if ( !file_exists($config->NEWZNAB_DIR."/www/config.php") ) {
-					$config->hasError = true;
-					$config->errorText[] = "Unable to locate config.php in " . $config->NEWZNAB_DIR . "/www.";
+					$config->setError("Unable to locate config.php in " . $config->NEWZNAB_DIR . "/www.");
 				}
 			}
 			
+			/*
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				~ NewzDash Javascript Update Delay
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			*/
 			if ( !$config->setOption('JSUPDATE_DELAY', $_POST['nd_jsupdate_delay']) )
 			{
-				$config->hasError = true;
-				$config->errorText[] = "JS Update Delay must not be empty!";
+				$config->setError("JS Update Delay must not be empty!");
 			}else{
 				if ( $config->JSUPDATE_DELAY < 1000 )
 				{
-					$config->hasError = true;
-					$config->errorText[] = "JS Update Delay should not be under 1 second (<1000)";
+					$config->setError("JS Update Delay should not be under 1 second (<1000)");
 				}
 			}
 			
+			/*
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				~ Database Name Check
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			*/
 			if ( $config->DB_NNDB_DBNAME == $config->DB_NDDB_DBNAME ) {
-				$config->hasError = true;
-				$config->errorText[] = "You cannot use the same databases for both Newznab and NewzDash";
+				$config->setError("You cannot use the same databases for both Newznab and NewzDash");
 			}
 
-			//Check SQL Connection
+			
+			/*
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				~ SQL Connection Test (for Newznab)
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			*/
 			if ( !$config->hasError ) {
 				$config->resetErrors();
 				$dbConnection_newznab = $config->tryDatabaseConnection("newznab");
-				$query = "SELECT value FROM site WHERE setting='title';";
-				$result = $dbConnection_newznab->query($query);
-				if ( $result === FALSE ) {
-					$config->hasError = true;
-					$config->errorText[] = "[newznab] This does not look like a newznab database, did you configure it correctly?";
-				}else{
-					$tmp = $result->fetch_assoc();
-					$config->DB_NNDB_TITLE = $tmp['value'];
+				if ( !$config->hasError )
+				{
+					$query = "SELECT value FROM site WHERE setting='title';";
+					$result = $dbConnection_newznab->query($query);
+					if ( $result === FALSE ) {
+						$config->setError("[newznab] This does not look like a newznab database, did you configure it correctly?");
+					}else{
+						$tmp = $result->fetch_assoc();
+						$config->DB_NNDB_TITLE = $tmp['value'];
+					}
 				}
 				
 				$dbConnection_newznab = $config->tryDatabaseConnection("newzdash");
+			}
+			
+			/*
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+				~ Memcache Settings
+				~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+			*/
+			if ( isset($_POST['memcache_server']) )
+			{
+				if ( !$config->setOption('MEMCACHE_SERVER', $_POST['memcache_server']) )
+				{
+					$config->setError("Memcache requires a server IP Address!");
+				}
+			}
+			
+			if ( isset($_POST['memcache_port']) )
+			{
+				if ( !$config->setOption('MEMCACHE_PORT', $_POST['memcache_port']) )
+				{
+					$config->setError("Memcache requires a server Port!");
+				}
 			}
 
 			break;
@@ -194,15 +246,14 @@
 						{
 							$queryData = $dbConnection_newzdash->query ( $query . ";" );
 							if ( $queryData === FALSE ) {
-								$config->hasError = true;
-								$config->errorText[] = "MySQL Error, MySQL Said: " . $dbConnection_newzdash->error;
+								$config->setError("MySQL Error, MySQL Said: " . $dbConnection_newzdash->error);
 							}
 						}
 					}
 					
 					mysqli_close($dbConnection_newzdash);
-					mysqli_close($dbConnection_newznab);
 				}
+				mysqli_close($dbConnection_newznab);
 			}
 			break;
 			
@@ -328,16 +379,16 @@
 					
 					if ( $page != "" )
 					{
-						if ( $config->hasError && count($config->errorText)==0 )
+						if ( $config->hasError && !count($config->errorText) )
 						{
+							echo "Something went wrong, send a bug report to someone!";
+						}else{
 							if ( $config->isLocked() )
 							{
 								echo "<h2 style=\"display:inline\"><strong>Error</strong></h2><br />install.lock file found, if you want to reinstall this please remove the file first.";
 							}else{
-								echo "Something went wrong, send a bug report to someone!";
+								include ( "./pages/" . $page . ".php");
 							}
-						}else{
-							include ( "./pages/" . $page . ".php");
 						}
 					}
 				?>
