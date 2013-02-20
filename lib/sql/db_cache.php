@@ -137,13 +137,15 @@ class Cache {
 		
 	private function getMethodFromSystem()
 	{
-		if ( function_exists("xcache_set") )
-			return "xcache";
+		if (function_exists('apc_store'))
+			return "apc";
 			
 		if (extension_loaded('memcache'))
 			return "memcache";
 			
-		if (function_exists('apc_store'))
-			return "apc";
+		if ( function_exists("xcache_set") )
+			return "xcache";	
+			
+		return null;
 	}
 }
