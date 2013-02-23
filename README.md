@@ -6,7 +6,7 @@ Newzdash
     Changing p= to page= which is the default configuration for newznab.  Censor
     chose to deploy the mod_rewrite for flag p=.  If you're using Apache, this is fine because
     censor included the .htaccess file that Apache uses for the rewrite.
-    This should automatically fix everone's current issues with newzdash deployed
+    This should automatically fix everyone's current issues with newzdash deployed
     on nginx.  If you find it still isn't working for you, do a fresh clone and install.
     Then ensure that your nginx rewrite looks something like this:
     
