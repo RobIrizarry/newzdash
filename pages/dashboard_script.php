@@ -8,6 +8,10 @@
 		$("#lastgroupupdate").load("./api.php?mode=lastgroupupdate");
 	}
 	
+	function updateLastUpdateDuration() {
+		$("#lastupdateduration").load("./api.php?mode=lastupdateduration");
+	}
+	
 	function updateActiveGroups() {
 		$("#activegroups").load("./api.php?mode=activegroups");
 	}
@@ -31,6 +35,7 @@
 	function updateAll() {
 		updateReleaseCount();
 		updateLastGroupUpdate();
+		updateLastUpdateDuration();
 		updateActiveGroups();
 		updatePendingProcessing();
 		updateLastBinaryAdded();

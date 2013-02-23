@@ -89,10 +89,10 @@
 			<?php $dashdata->getDatabaseAndRegexInfo(); ?>
 		</a>
 		
-		<a data-rel="tooltip" title="Subversion" class="well span4 top-block" href="#">
-			<span class="icon32 icon-blue icon-gear"></span>
-			<div>Placeholder</div>
-			<div id="unknown">0000</div>
+		<a data-rel="tooltip" title="Last Update Duration" class="well span4 top-block" href="#">
+			<span class="icon32 icon-blue icon-clock"></span>
+			<div>Last Update Duration</div>
+			<div id="lastupdateduration">Loading...</div>
 		</a>
 		
 	</div>
