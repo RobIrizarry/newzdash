@@ -3,6 +3,9 @@
 if (!class_exists ( "DB" ))
 	require_once ( WWW_DIR . "/lib/sql/db_newznab.php" );
 
+if (!class_exists ( "NDDB" ))
+	require_once ( WWW_DIR . "/lib/sql/db_newzdash.php" );
+
 if (!class_exists("Cache"))
 	require_once ( WWW_DIR . "/lib/sql/db_cache.php" );
 	
@@ -61,9 +64,23 @@ class DashData
 			printf('<span class="icon32 icon-blue icon-clock"></span>
 				<div>Last Group Update</div>
 				<div>%s</div>', $age_of_package);
-		}
-	    
-	    
+		}    
+	}
+	
+	/**
+	 * getLastUpdateDuration
+	 */
+	public function getLastUpdateDuration()
+	{
+	    $sql="SELECT TIMESTAMPDIFF(SECOND, t1.TIMESTAMP, t2.TIMESTAMP) AS duration
+			FROM newzdash_tmuxlog AS t1, newzdash_tmuxlog AS t2
+			WHERE t1.PANE_NAME = 'binaries' AND t2.PANE_NAME = 'binaries'
+			AND t1.PANE_STATE = '1' AND t2.PANE_STATE = '2'
+			AND t1.TIMESTAMP < t2.TIMESTAMP
+			ORDER BY t2.TIMESTAMP DESC, t1.TIMESTAMP DESC LIMIT 1;";
+	    $db = new NDDB;
+	    $data = $db->queryOneRow($sql);
+		return date("m\m s\s", $data['duration']);
 	}
     
 	/**

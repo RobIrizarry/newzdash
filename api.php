@@ -19,6 +19,10 @@
 				$retVal = $dd->getLastGroupUpdate(true);
 				break;
 				
+			case "lastupdateduration":
+				$retVal = $dd->getLastUpdateDuration();
+				break;
+				
 			case "activegroups":
 				$retVal = $dd->getActiveGroupCount(true);
 				break;
