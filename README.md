@@ -1,6 +1,19 @@
 Newzdash
 ========
 
+** Ruhllatio's Change 02/13/2013 - **
+
+    Changing p= to page= which is the default configuration for newznab.  Censor
+    chose to deploy the mod_rewrite for flag p=.  If you're using Apache, this is fine because
+    censor included the .htaccess file that Apache uses for the rewrite.
+    This should automatically fix everyone's current issues with newzdash deployed
+    on nginx.  If you find it still isn't working for you, do a fresh clone and install.
+    Then ensure that your nginx rewrite looks something like this:
+    
+    rewrite ([^/.]+)?$ /index.php?p=$1? last;
+    
+    Adapt as necessary if you deployed newzdash as a subdir off newznab
+
 NewzNab dashboard, based upon free Charisma bootstrap theme
 	
     Based off original work titled 'Charisma' by Muhammad Usman

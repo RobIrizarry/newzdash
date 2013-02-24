@@ -1,4 +1,3 @@
-
 <?php
 if (!file_exists("config.php"))
 {
@@ -16,9 +15,9 @@ if ( !defined("DB_NDDB_HOST") )
 $page = "dashboard";
 $pageScripts = false;
 
-if ( isset($_GET['p']) )
+if ( isset($_GET['page']) )
 {
-	$page = $_GET['p'];
+	$page = $_GET['page'];
 
 	if ( (strpos( $page, "." ) > 0) || (strpos( $page, "\\" ) > 0) || (strpos( $page, "/" ) > 0) ) {
 		echo ( "
