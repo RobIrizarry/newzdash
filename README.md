@@ -10,7 +10,7 @@ Newzdash
     on nginx.  If you find it still isn't working for you, do a fresh clone and install.
     Then ensure that your nginx rewrite looks something like this:
     
-    rewrite ([^/.]+)?$ /index.php?p=$1? last;
+    rewrite ([^/.]+)?$ /index.php?page=$1? last;
     
     Adapt as necessary if you deployed newzdash as a subdir off newznab
 
@@ -26,7 +26,7 @@ Installation Instructions
 
 - ensure that the php5-svn module is installed, on ubuntu/debian you can install with 'sudo apt-get install php5-svn'. NewzDash will
   function without this but you will not see version information.
-- ensure the php5-xcache module is installed.
+- You may also install a PHP Caching module to greatly decrease the bandwidth usage of Newzdash, Supported modules are: APC, Memcache and XCache.
 - clone the git repository: 'git clone https://github.com/AlienXAXS/newzdash.git /var/www/newzdash'.
 - Configure your web server to either: Run NewzDash on a subdomain (ref #1), or run NewzDash in a sub folder (ref #2).
 - Access NewzDash via your browser and start the install process.
