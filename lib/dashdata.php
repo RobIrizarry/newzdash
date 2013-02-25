@@ -80,7 +80,7 @@ class DashData
 			ORDER BY t2.TIMESTAMP DESC, t1.TIMESTAMP DESC LIMIT 1;";
 	    $db = new NDDB;
 	    $data = $db->queryOneRow($sql);
-		return date("m\m s\s", $data['duration']);
+		return gmdate("H\h i\m s\s", $data['duration']);
 	}
     
 	/**
