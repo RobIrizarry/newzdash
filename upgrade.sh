@@ -1,10 +1,11 @@
 #!/bin/sh
 # Upgrade script for Newzdash.
 
-NEWZDASH_PATH=""
+NEWZDASH_PATH="$1"
 
 if [ -z "${NEWZDASH_PATH}" ] || [ ! -d "${NEWZDASH_PATH}" ]; then
-  echo "Unable to locate NEWZDASH_PATH ($NEWZDASH_PATH), aborting"
+  echo "Unable to locate NEWZDASH_PATH, aborting"
+  echo "Usage: $0 /var/www/newzdash"
   exit 0
 fi
 
