@@ -1,7 +1,7 @@
 #!/bin/sh
 # Upgrade script for Newzdash.
 
-NEWZDASH_PATH = ""
+export NEWZDASH_PATH=""
 
 if [ -z "${NEWZDASH_PATH}" ] || [ ! -d "${NEWZDASH_PATH}" ]; then
   echo "Unable to locate $NEWZDASH_PATH, aborting"
