@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/bin/bash
 # Upgrade script for Newzdash.
 
-NEWZDASH_PATH="$1"
+NEWZDASH_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 if [ -z "${NEWZDASH_PATH}" ] || [ ! -d "${NEWZDASH_PATH}" ]; then
   echo "Unable to locate NEWZDASH_PATH, aborting"
