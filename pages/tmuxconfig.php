@@ -28,12 +28,15 @@ preg_match_all('|^export ([a-z_]*)="(.*)"$|im', $defaults, $defaultsVars);
 
 if(isset($_POST['action']) && $_POST['action'] == 'savetmuxconfig') {
 
+	// create defaults file from untouched config
+	$defaults = $config;
+
 	foreach($_POST['vars'] as $key=>$newVar) {
-		// get the old customized value
-		$oldVar = $defaultsVars[2][ array_search($key, $defaultsVars[1]) ];
-		// if the POST'ed customized value does not match the old customized value, replace it
-		if($oldVar != $newVar) {
-			$defaults = preg_replace('|(export '.$key.'=")(.*)(")|', '$1'.$newVar.'$3', $config);		
+		// get the untouched value
+		$origVar = $configVars[2][ array_search($key, $configVars[1]) ];
+		// if the untouched value does not match the POST'ed customized value, replace it
+		if($origVar != $newVar) {
+			$defaults = preg_replace('|^(export '.$key.'=")(.*)(")$|m', '${1}'.$newVar.'${3}', $defaults);
 		}
 	}
 	
