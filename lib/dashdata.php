@@ -74,7 +74,7 @@ class DashData
 	{
 	    $sql="SELECT TIMESTAMPDIFF(SECOND, t1.TIMESTAMP, t2.TIMESTAMP) AS duration
 			FROM newzdash_tmuxlog AS t1, newzdash_tmuxlog AS t2
-			WHERE t1.PANE_NAME = 'binaries' AND t2.PANE_NAME = 'binaries'
+			WHERE t1.PANE_NAME = 'update_binaries' AND t2.PANE_NAME = 'binaries'
 			AND t1.PANE_STATE = '1' AND t2.PANE_STATE = '2'
 			AND t1.TIMESTAMP < t2.TIMESTAMP
 			ORDER BY t2.TIMESTAMP DESC, t1.TIMESTAMP DESC LIMIT 1;";
